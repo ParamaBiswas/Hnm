@@ -1,0 +1,12 @@
+E:\CenterPoint\CenterPointPortal\HRModel\bin\Debug\netcoreapp2.1\HRModel.deps.json
+E:\CenterPoint\CenterPointPortal\HRModel\bin\Debug\netcoreapp2.1\HRModel.dll
+E:\CenterPoint\CenterPointPortal\HRModel\bin\Debug\netcoreapp2.1\HRModel.pdb
+E:\CenterPoint\CenterPointPortal\HRModel\bin\Debug\netcoreapp2.1\CommonModel.dll
+E:\CenterPoint\CenterPointPortal\HRModel\bin\Debug\netcoreapp2.1\CommonModel.pdb
+E:\CenterPoint\CenterPointPortal\HRModel\obj\Debug\netcoreapp2.1\HRModel.csproj.CoreCompileInputs.cache
+E:\CenterPoint\CenterPointPortal\HRModel\obj\Debug\netcoreapp2.1\HRModel.AssemblyInfoInputs.cache
+E:\CenterPoint\CenterPointPortal\HRModel\obj\Debug\netcoreapp2.1\HRModel.AssemblyInfo.cs
+E:\CenterPoint\CenterPointPortal\HRModel\obj\Debug\netcoreapp2.1\HRModel.csproj.CopyComplete
+E:\CenterPoint\CenterPointPortal\HRModel\obj\Debug\netcoreapp2.1\HRModel.dll
+E:\CenterPoint\CenterPointPortal\HRModel\obj\Debug\netcoreapp2.1\HRModel.pdb
+E:\CenterPoint\CenterPointPortal\HRModel\obj\Debug\netcoreapp2.1\HRModel.csprojAssemblyReference.cache

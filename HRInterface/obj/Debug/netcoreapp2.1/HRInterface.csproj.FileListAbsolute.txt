@@ -1,0 +1,14 @@
+E:\CenterPoint\CenterPointPortal\HRInterface\bin\Debug\netcoreapp2.1\HRInterface.deps.json
+E:\CenterPoint\CenterPointPortal\HRInterface\bin\Debug\netcoreapp2.1\HRInterface.dll
+E:\CenterPoint\CenterPointPortal\HRInterface\bin\Debug\netcoreapp2.1\HRInterface.pdb
+E:\CenterPoint\CenterPointPortal\HRInterface\bin\Debug\netcoreapp2.1\CommonModel.dll
+E:\CenterPoint\CenterPointPortal\HRInterface\bin\Debug\netcoreapp2.1\HRModel.dll
+E:\CenterPoint\CenterPointPortal\HRInterface\bin\Debug\netcoreapp2.1\HRModel.pdb
+E:\CenterPoint\CenterPointPortal\HRInterface\bin\Debug\netcoreapp2.1\CommonModel.pdb
+E:\CenterPoint\CenterPointPortal\HRInterface\obj\Debug\netcoreapp2.1\HRInterface.csprojAssemblyReference.cache
+E:\CenterPoint\CenterPointPortal\HRInterface\obj\Debug\netcoreapp2.1\HRInterface.csproj.CoreCompileInputs.cache
+E:\CenterPoint\CenterPointPortal\HRInterface\obj\Debug\netcoreapp2.1\HRInterface.AssemblyInfoInputs.cache
+E:\CenterPoint\CenterPointPortal\HRInterface\obj\Debug\netcoreapp2.1\HRInterface.AssemblyInfo.cs
+E:\CenterPoint\CenterPointPortal\HRInterface\obj\Debug\netcoreapp2.1\HRInterface.csproj.CopyComplete
+E:\CenterPoint\CenterPointPortal\HRInterface\obj\Debug\netcoreapp2.1\HRInterface.dll
+E:\CenterPoint\CenterPointPortal\HRInterface\obj\Debug\netcoreapp2.1\HRInterface.pdb

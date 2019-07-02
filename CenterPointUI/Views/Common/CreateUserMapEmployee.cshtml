@@ -1,0 +1,736 @@
+﻿@{
+    ViewData["Title"] = "CreateUserMapEmployee";
+}
+
+
+<script type="text/javascript">
+
+    var server = "http://192.168.20.152";
+    var requestUrl;
+
+    var objUserList;
+    var employeeList;
+    var objEmp;
+    var objMappedEmp;
+    var LoadedUserID;
+    var vArray = new Array();
+    var vEmployeeArray = new Array();
+    var UserMapCode;
+
+    var jObjUserList;
+    var LoadedUserName;
+    var LoadedUserMapCode;
+
+    var pUserCode = "";
+    var pCompanyCode = 1;
+
+    window.onload = function () {
+        CheckUserIsLogedIn();
+    }
+
+    function CheckUserIsLogedIn() {
+        debugger
+        GetCookie();
+
+        if (pUserCode != "NotLogedIn") {
+            //Do your action
+        }
+        else {
+            requestUrl = server + "/centerpoint/common/CreateUserMapEmployee";
+            Cookies.set('RequestURL', requestUrl, { expires: 1 });
+            window.location.href = "../Login/LoginPageUI";
+        }
+    }
+    function GetCookie() {
+        debugger
+        pUserCode = Cookies.get('UserID');
+
+        if (pUserCode == null || pUserCode == "") {
+            // do cookie doesn't exist stuff;
+            pUserCode = "NotLogedIn";
+        }
+        else {
+            // do cookie exists stuff
+            pUserCode = Cookies.get('UserID');
+        }
+    }
+    function getCurrentDate() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+        //console.log(today);
+        document.getElementById("employeeDateOfBirth").value = today;
+        document.getElementById("jobStatusChangedDate").value = today;
+    }
+
+    function UserKeyPress() {
+        debugger
+        var key = event.which || event.keyCode;
+        if (key == '119') {
+            debugger
+
+            $("#userListPopUp").modal({
+                show: true,
+                backdrop: 'static',
+                keyboard: false
+            });
+        }
+    }
+
+    function PreviewBtnClick() {
+        $("#tblUserList tr").remove();
+        vArray = [];
+        var pUserName = $("#popUpNameTxtField").val();
+        var pStringMatchOptionValue = parseInt($("#popUpStringMatchOptionValue option:selected").val(), 10);
+
+        debugger
+        $.ajax({
+
+            url: server + "/CoreCommon/api/Common/GetUserList?pUserName=" + pUserName + "&pStringMatchOptionValue=" + pStringMatchOptionValue,
+            type: "Get",
+            datatype: "json",
+            contentType: "application/json",
+            data: { get_param: 'value' },
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+
+                objUserList = data.listUser;
+
+                LoadUserList(objUserList);
+            },
+            error: function () {
+                alert("Failed to User List");
+
+            }
+        });
+    }
+
+    function LoadUserList(ObjList) {
+        debugger
+        if (ObjList.length > 0) {
+            for (var i = 0; i < ObjList.length; i++) {
+                jObjUserList = {
+                    "tableName_TBL": null,
+                    "userMapCode_PK": null,
+                    "employeeCode_FK": null,
+                    "userId_FK": "593EB966-905C-48F9-AC58-699BF4C3EC8F",
+                    "userName_VW": "ehoque4@gmail.com",
+                    "deptCode_VW": null,
+                    "userID_VW": null,
+                    "isActive": null,
+                    "isActive_VW": false,
+                    "isNew": true,
+                    "isDeleted": false,
+                    "userCode": null,
+                    "actionType": null,
+                    "actionDate": null,
+                    "companyCode_FK": 0,
+                    "isDirty": false
+                }
+                debugger
+                var index = $("#tblUserList").children("tr").length;
+
+                jObjUserList.tableName_TBL = ObjList[i].tableName_TBL;
+                jObjUserList.userMapCode_PK = ObjList[i].userMapCode_PK;
+                jObjUserList.employeeCode_FK = ObjList[i].employeeCode_FK;
+                jObjUserList.userId_FK = ObjList[i].userId_FK;
+                jObjUserList.userName_VW = ObjList[i].userName_VW;
+                jObjUserList.deptCode_VW = ObjList[i].deptCode_VW;
+                jObjUserList.userID_VW = ObjList[i].userID_VW;
+                jObjUserList.isActive = ObjList[i].isActive;
+                jObjUserList.isActive_VW = ObjList[i].isActive_VW;
+                jObjUserList.isNew = ObjList[i].isNew;
+                jObjUserList.userCode = ObjList[i].userCode;
+                jObjUserList.companyCode_FK = ObjList[i].companyCode_FK;
+
+                
+
+                AssignToUserListTable(jObjUserList.userId_FK, jObjUserList.userName_VW, jObjUserList.userMapCode_PK, jObjUserList.isActive_VW );
+            }
+        }
+        else {
+            alert("No Data Found!!");
+        }
+    }
+
+    function AssignToUserListTable(pUserId, pUserName, pUserMapCode, pIsActiveVw) {
+        debugger
+
+        LoadedUserID = pUserId;
+        LoadedUserName = pUserName;
+        LoadedUserMapCode = pUserMapCode;
+
+        if (pIsActiveVw == true) {
+            $("#isActiveCheckBox").prop('checked', true);
+        }
+        else {
+            $("#isActiveCheckBox").prop('checked', false);
+        }
+        
+        
+
+        var SLno = pUserId;
+        var indexCell = "<td style='display:none'><input type='hidden' name='Documents.Index'  value='" +
+            pUserId +
+            "' /></td>";
+
+        var SLCell = "<td><a href='javascript:GetUserByCode(\"" + pUserId + "\",\"" + pUserName + "\")' onclick='GetUserByCode(\"" + pUserId + "\",\"" + pUserName + "\",\"" + pUserMapCode + "\",\"" + pIsActiveVw + "\")' id='" + pUserId + "'>" +
+            pUserName +
+            "</a></td>";
+
+        var newRow = "<tr id='tblDocuments" +
+            pUserId +
+            "'>" +
+            indexCell +
+            SLCell +
+            "</tr>";
+
+        $("#tblUserList").append(newRow);
+        vArray.push({ DocumentName: pUserId });
+
+    }
+
+    function GetUserByCode(pUserId, pUserName, pUserMapCode, pIsActive_VW) {
+        debugger
+        document.getElementById("userTxtField").value = pUserName;
+
+        $('#userListPopUp').modal('hide');
+
+        if (pUserMapCode != "" || pUserMapCode != "undefined") {
+            UserMapCode = pUserMapCode;
+            GetMappedEmployeeByUserCode(pUserId, pIsActive_VW);
+        }
+        else {
+            UserMapCode = "";
+        }
+    }
+
+
+    function EmployeeIdKeyPress() {
+        debugger
+        var key = event.which || event.keyCode;
+        if (key == '119') {
+            debugger
+            //var userField = $("#userTxtField").val();
+            //if (userField != "") {
+            //    $("#employeeListPopUp").modal({
+            //        show: true,
+            //        backdrop: 'static',
+            //        keyboard: false
+            //    });
+            //}
+            //else {
+            //    alert('Select the User First');
+            //}
+
+            $("#employeeListPopUp").modal({
+                show: true,
+                backdrop: 'static',
+                keyboard: false
+            });
+        }
+    }
+
+    function EmpPopUpPreviewBtnClick() {
+        $("#tblEmployeeList tr").remove();
+        vEmployeeArray = [];
+        var pPopUpEmpId = $("#empPopUpEmployeeIdTxtField").val();
+        var pPopUpEmpName = $("#empPopUpEmployeeNameTxtField").val();
+        var pPopUpEmpStringMatchOptionValue = parseInt($("#StringMatchOptionValue_VW option:selected").val(), 10);
+        var pPopUpEmpJobStatus = parseInt($("#JobStatus option:selected").val(), 10);
+
+        debugger
+        $.ajax({
+
+            url: server + "/CoreCommon/api/Employee/GetEmployeeAll",
+            type: "Get",
+            datatype: "json",
+            contentType: "application/json",
+            data: { get_param: 'value' },
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+
+                employeeList = data.vList;
+
+                LoadEmployeeList(employeeList);
+            },
+            error: function () {
+                alert("Failed to get Employee List");
+
+            }
+        });
+    }
+
+    function LoadEmployeeList(ObjEmpList) {
+        debugger
+        if (ObjEmpList.length > 0) {
+            for (var i = 0; i < ObjEmpList.length; i++) {
+                
+                LoadedEmployeeID = ObjEmpList[i].employeeCode_PK;
+
+                AssignToEmployeeListTable(ObjEmpList[i].employeeCode_PK, ObjEmpList[i].employeeId, ObjEmpList[i].name, ObjEmpList[i].designation_VW, ObjEmpList[i].department_VW);
+            }
+        }
+        else {
+            alert("No Data Found!!");
+        }
+    }
+
+    function AssignToEmployeeListTable(pEmployeeCode, pEmployeeID, pEmployeeName, pEmployeeDesignation, pEmployeeDepartment) {
+        debugger
+        var SLno = pEmployeeID;
+        var indexCell = "<td style='display:none'><input type='hidden' name='Documents.Index'  value='" +
+            pEmployeeCode +
+            "' /></td>";
+
+        var EmployeeIDCell = "<td><a href='javascript:GetSelectedEmpByID(\"" + pEmployeeID + "\")' onclick='GetSelectedEmpByID(\"" + pEmployeeID + "\")' id='" + pEmployeeID + "'>" +
+            pEmployeeID +
+            "</a></td>";
+
+
+        var EmployeeNameCell = "<td><input type='hidden'   id='Documents" +
+            pEmployeeCode +
+            "_pTcType' name='Documents[" +
+            pEmployeeCode +
+            "].pTcType' value='" +
+            pEmployeeName +
+            "' />" +
+            pEmployeeName +
+            "</td>";
+        var EmployeeDesignationCell = "<td><input type='hidden'   id='Documents" +
+            pEmployeeCode +
+            "_pTcType' name='Documents[" +
+            pEmployeeCode +
+            "].pTcType' value='" +
+            pEmployeeDesignation +
+            "' />" +
+            pEmployeeDesignation +
+            "</td>";
+
+        var EmployeeDepartmentCell = "<td><input type='hidden'   id='Documents" +
+            pEmployeeCode +
+            "_pTcType' name='Documents[" +
+            pEmployeeCode +
+            "].pTcType' value='" +
+            pEmployeeDepartment +
+            "' />" +
+            pEmployeeDepartment +
+            "</td>";
+
+
+        var newRow = "<tr id='tblDocuments" +
+            pEmployeeCode +
+            "'>" +
+            EmployeeIDCell +
+            EmployeeNameCell +
+            EmployeeDesignationCell +
+            EmployeeDepartmentCell +
+            "</tr>";
+
+        $("#tblEmployeeList").append(newRow);
+        vEmployeeArray.push({ DocumentName: pEmployeeCode });
+
+    }
+
+    function GetSelectedEmpByID(pEmpId)
+    {
+        debugger
+        $.ajax({
+
+            url: server + "/CoreCommon/api/Employee/GetEmployeeByID?pEmployeeId=" + pEmpId + "&pCompanyCode=" + pCompanyCode,
+            type: "Get",
+            datatype: "json",
+            contentType: "application/json",
+            data: { get_param: 'value' },
+            crossDomain: "true",
+
+            error: function () {
+                alert("LS_BROWSER Error: An error has occurred.");
+            },
+            success: function (data) {
+
+                objEmp = data.objEmployee;
+
+                AssignSelectedEmployee(objEmp);
+
+                $('#employeeListPopUp').modal('hide');
+            },
+            error: function () {
+                alert("LS_API Error: Failed to get Employee");
+
+            }
+        });
+    }
+
+    function AssignSelectedEmployee(pObjEmp) {
+        debugger
+        //var isNew = pObjEmp.isNew;
+        //document.getElementById("employeeDateOfBirth").value
+        document.getElementById("idTxtField").value = pObjEmp.employeeId;
+        document.getElementById("employeeNameTxtField").value = pObjEmp.name;
+        document.getElementById("employeeDesignationTxtField").value = pObjEmp.designation_VW;
+        document.getElementById("employeeDepartmentTxtField").value = pObjEmp.department_VW;
+        document.getElementById("employeeLocationTxtField").value = pObjEmp.presentAddress;
+
+        if (pObjEmp.jobStatus == 0) {
+            document.getElementById("employeeEmployeeTypeTxtField").value = "Non-Confirm";
+        }
+        if (pObjEmp.jobStatus == 1) {
+            document.getElementById("employeeEmployeeTypeTxtField").value = "Confirm";
+        }
+    }
+
+    function SaveBtnClick() {
+        var ObjMain = {
+            "TableName_TBL": "",
+            "UserMapCode_PK": "",
+            "EmployeeCode_FK": "f73504f6-747b-47cf-a1ed-27258c8b88f9",
+            "EmployeeId_VW": "",
+            "UserId_FK": "E459BED2-8B25-498B-A885-99643C90C904",
+            "UserName_VW": "emiyatoufique@gmail.com",
+            "DeptCode_VW": "",
+            "UserID_VW": "",
+            "UserCode": "0E2C7D4B-B442-4A75-8D53-581EA847C0CB",
+            "IsActive": 1,
+            "IsActive_VW": true
+        }
+        ObjMain.UserMapCode_PK = UserMapCode;
+        ObjMain.EmployeeCode_FK = objEmp.employeeCode_PK;
+        ObjMain.UserId_FK = LoadedUserID;
+        ObjMain.UserName_VW = LoadedUserName;
+        ObjMain.UserCode = pUserCode; //pUserCode means Logged In user Code
+
+        var isChecked = $("#isActiveCheckBox").prop("checked");
+        if (isChecked) {
+            ObjMain.IsActive = 1;
+            ObjMain.IsActive_VW = true;
+        }
+        else {
+            ObjMain.IsActive = 0;
+            ObjMain.IsActive_VW = false;
+        }
+
+        debugger
+        var datas = JSON.stringify(ObjMain);
+
+        $.ajax(
+            {
+
+                url: server + "/CoreCommon/api/Common/CreateUserMapEmployee",
+                dataType: "json",
+                processData: false,
+                contentType: 'application/json',
+                type: "POST",
+                data: datas,
+                success: function (data) {
+                    document.location.reload();
+                    alert(data.message);
+                },
+                error: function () {
+                    alert("LS_BROWSER Error: There was error saving data!");
+                }
+            }
+        );
+        
+    }
+
+    function GetMappedEmployeeByUserCode(pUserCode, pIsActive_VW) {
+        
+        debugger
+        var Active;
+        //var isChecked = $("#isActiveCheckBox").prop("checked");
+        if (pIsActive_VW == true) {
+            Active = true;
+        }
+        else {
+            Active = false;
+        }
+
+        $.ajax({
+
+            url: server + "/CoreCommon/api/Common/GetUserMapEmployeeByUserCode?pUserCode=" + pUserCode + "&isActive=" + Active,
+            type: "Get",
+            datatype: "json",
+            contentType: "application/json",
+            data: { get_param: 'value' },
+            crossDomain: "true",
+
+            error: function () {
+                alert("LS_BROWSER Error: An error has occurred.");
+            },
+            success: function (data) {
+
+                objMappedEmp = data.objUserMapEmployee;
+
+                AssignMappedEmployee(objMappedEmp);
+
+                //$('#employeeListPopUp').modal('hide');
+            },
+            error: function () {
+                alert("LS_API Error: Failed to get Employee");
+
+            }
+        });
+    }
+
+    function AssignMappedEmployee(pObjEmp) {
+        debugger
+        //var isNew = pObjEmp.isNew;
+        //document.getElementById("employeeDateOfBirth").value
+        document.getElementById("idTxtField").value = pObjEmp.userID_VW;
+        document.getElementById("employeeNameTxtField").value = pObjEmp.userName_VW;
+        document.getElementById("employeeDepartmentTxtField").value = pObjEmp.deptCode_VW;
+    }
+
+</script>
+
+
+<div class="body-content">
+
+    <div class="box">
+        <form>
+            <fieldset>
+                <legend style="color:brown">User</legend>
+
+                <div class="row">
+                    <div class="col-10">
+                        <label for="fname">User:<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-23">
+                        <input type="text" id="userTxtField" readonly="readonly" placeholder="Press F8" onkeydown="UserKeyPress()" />
+                    </div>
+                    <div class="col-23">
+                        <input type="checkbox" name="isActive" value="isActive" id="isActiveCheckBox"><label for="fname">Is Active</label>
+                    </div>
+
+                </div>
+            </fieldset>
+            <br />
+        </form>
+    </div>
+
+    <div class="box">
+        <form>
+            <fieldset>
+                <legend style="color:brown">Employee Info</legend>
+
+                <div class="row">
+                    <div class="col-10">
+                        <label for="fname">ID:<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-23">
+                        <input type="text" id="idTxtField" readonly="readonly" placeholder="Press F8" onkeydown="EmployeeIdKeyPress()" />
+                    </div>
+                    <div class="col-10">
+                        <label for="fname">Name:</label>
+                    </div>
+                    <div class="col-23">
+                        <input type="text" id="employeeNameTxtField" readonly="readonly" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-10">
+                        <label for="fname">Designation:</label>
+                    </div>
+                    <div class="col-23">
+                        <input type="text" id="employeeDesignationTxtField" readonly="readonly" />
+                    </div>
+                    <div class="col-10">
+                        <label for="fname">Department:</label>
+                    </div>
+                    <div class="col-23">
+                        <input type="text" id="employeeDepartmentTxtField" readonly="readonly" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-10">
+                        <label for="fname">Employee Type:</label>
+                    </div>
+                    <div class="col-23">
+                        <input type="text" id="employeeEmployeeTypeTxtField" readonly="readonly" />
+                    </div>
+                    <div class="col-10">
+                        <label for="fname">Location:</label>
+                    </div>
+                    <div class="col-23">
+                        <input type="text" id="employeeLocationTxtField" readonly="readonly" />
+                    </div>
+                </div>
+            </fieldset>
+            <br />
+        </form>
+    </div>
+
+
+    <div class="submitBtn">
+        <button type="button" onclick="NewBtnClick()" style="width:100px">New</button>
+        <button type="button" onclick="SaveBtnClick()" style="width:100px">Save</button>
+    </div>
+
+</div>
+
+@*Bootstrap 4 Modal (PopUp)*@
+<div class="modal fade" id="userListPopUp">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-center text-primary">User List</h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="CreateTypeScreen">
+                    <form>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-10">
+                                    <label>@*<i class="fa fa-barcode"></i>*@Name:</label>
+                                </div>
+                                <div class="col-23">
+                                    <input type="text" name="" class="form-control" id="popUpNameTxtField" />
+                                </div>
+                                <div class="col-23">
+                                    <select id="popUpStringMatchOptionValue" style="margin-top:2px; margin-left:30px">
+                                        <option value="2">Likely</option>
+                                        <option value="0">StartsWith</option>
+                                        <option value="1">EndsWith</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="submitBtn">
+                                    <button type="button" class="btn btn-success" onclick="PreviewBtnClick()">Preview</button>
+                                </div>
+                            </div>
+                            <br />
+                            <table class="table-hover" border="1" align="center">
+                                <thead bgcolor="#FF0000">
+                                    <tr>
+                                        <th>User Name  </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblUserList"></tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            @*<div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-success" onclick="CreateNewFileType()">Save</button>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+
+@*Employee List Pop-Up*@
+<div class="modal fade" id="employeeListPopUp">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-center text-primary">Employee List</h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="CreateTypeScreen">
+                    <form>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-10">
+                                    <label>Employee ID:</label>
+                                </div>
+                                <div class="col-23" style="margin-left:30px">
+                                    <input type="text" name="" class="form-control" id="empPopUpEmployeeIdTxtField" />
+                                </div>
+
+                                <div class="col-10"  style="margin-left:30px">
+                                    <label>Employee Name:</label>
+                                </div>
+                                <div class="col-23"  style="margin-left:30px">
+                                    <input type="text" name="" class="form-control" id="empPopUpEmployeeNameTxtField" />
+                                </div>
+                                <div class="col-10">
+                                    <select id="StringMatchOptionValue_VW" style="margin-top:2px; margin-left:30px">
+                                        <option value="2">Likely</option>
+                                        <option value="0">StartsWith</option>
+                                        <option value="1">EndsWith</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-10">
+                                    <label>Job Status:</label>
+                                </div>
+                                <div class="col-23">
+                                    <select id="JobStatus" style="margin-top:2px; margin-left:30px">
+                                        <option value="0">Non-Confirm</option>
+                                        <option value="1">Confirm</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-10">
+                                    <label>Designation:</label>
+                                </div>
+                                <div class="col-23"  style="margin-left:30px">
+                                    <input type="text" id="empPopUpdesignationTxtField" readonly="readonly" placeholder="Press F8" onkeydown="DesignationKeyPress()" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-10">
+                                    <label>Employment Type:</label>
+                                </div>
+                                <div class="col-23"  style="margin-left:30px">
+                                    <input type="text" id="empPopUpEmploymentTypeTxtField" readonly="readonly" placeholder="Press F8" onkeydown="EmploymentKeyPress()" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="submitBtn">
+                                    <button type="button" class="btn btn-success" onclick="EmpPopUpPreviewBtnClick()">Preview</button>
+                                </div>
+                            </div>
+                            <br />
+                            <table class="table-hover" border="1" align="center">
+                                <thead bgcolor="#FF0000">
+                                    <tr>
+                                        <th>ID | </th>
+                                        <th>Name | </th>
+                                        <th>Designation | </th>
+                                        <th>Department | </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblEmployeeList"></tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            @*<div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-success" onclick="CreateNewFileType()">Save</button>
+                </div>*@
+        </div>
+    </div>
+</div>

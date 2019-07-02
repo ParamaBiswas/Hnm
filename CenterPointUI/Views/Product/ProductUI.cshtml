@@ -1,0 +1,618 @@
+﻿
+@{
+    ViewData["Title"] = "Product Information";
+}
+
+<script>
+
+    var server = "http://192.168.20.29/";
+    var requestUrl;
+
+    var pUserCode = "";
+    var pCompanyCode = 1;
+
+    window.onload = function () {
+        CheckUserIsLogedIn();
+        
+    }
+
+    function CheckUserIsLogedIn() {
+        debugger
+        GetCookie();
+
+        if (pUserCode != "NotLogedIn") {
+            ProductCategory();
+            Brand();
+            Country();
+            Mou();
+        }
+        else {
+            requestUrl = server + "/centerpoint/employee/createemployee";
+            Cookies.set('RequestURL', requestUrl, { expires: 1 });
+            window.location.href = "../Login/LoginPageUI";
+        }
+    }
+
+    function GetCookie() {
+        debugger
+        pUserCode = Cookies.get('UserID');
+
+        if (pUserCode == null || pUserCode == "") {
+            // do cookie doesn't exist stuff;
+            pUserCode = "NotLogedIn";
+        }
+        else {
+            // do cookie exists stuff
+            pUserCode = Cookies.get('UserID');
+        }
+    }
+
+    function ClickCheckBox() {
+
+        if ($("#chkSampleProduct").prop('checked') == true) {
+            alert();
+        }
+        else
+            alert(false);
+
+    }
+    function ProductCategory() {
+
+        $.ajax({
+            url: server + "CoreCommon/api/Common/GetCodeFile?FileTypeCode=33&LevelCode=143&COMPANY_CODE=" + pCompanyCode,
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+
+                $("#FileCodeForProductCategory").get(0).options.length = 0;
+                $("#FileCodeForProductCategory").get(0).options[0] = new Option("Select Type", "-1");
+                for (var i = 1; i < data.listGeneralCodeFile.length + 1; i++) {
+
+                    $("#FileCodeForProductCategory").get(0).options[i] = new Option(data.listGeneralCodeFile[i - 1].fileName, data.listGeneralCodeFile[i - 1].fileCode_PK, i - 1);
+
+                }
+           
+
+            },
+            error: function () {
+                alert("Failed to load Product Category");
+
+
+            }
+        });
+
+    }
+    function Brand() {
+
+        $.ajax({
+            url: server + "CoreCommon/api/Common/GetCodeFile?FileTypeCode=36&LevelCode=63&COMPANY_CODE=" + pCompanyCode,
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+
+                $("#FileCodeForBrand").get(0).options.length = 0;
+                $("#FileCodeForBrand").get(0).options[0] = new Option("Select Type", "-1");
+                for (var i = 1; i < data.listGeneralCodeFile.length + 1; i++) {
+
+                    $("#FileCodeForBrand").get(0).options[i] = new Option(data.listGeneralCodeFile[i - 1].fileName, data.listGeneralCodeFile[i - 1].fileCode_PK, i - 1);
+
+                }
+
+
+            },
+            error: function () {
+                alert("Failed to load Brand");
+
+
+            }
+        });
+
+    }
+    function Country() {
+
+        $.ajax({
+            url: server + "CoreCommon/api/Common/GetCodeFile?FileTypeCode=18&LevelCode=17&COMPANY_CODE=" + pCompanyCode,
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+                debugger
+                $("#CountryofManufactur").get(0).options.length = 0;
+                $("#CountryofManufactur").get(0).options[0] = new Option("Select Type", "-1");
+                $("#CountryofOrigin").get(0).options.length = 0;
+                $("#CountryofOrigin").get(0).options[0] = new Option("Select Type", "-1");
+                for (var i = 1; i < data.listGeneralCodeFile.length + 1; i++) {
+
+                    $("#CountryofOrigin").get(0).options[i] = new Option(data.listGeneralCodeFile[i - 1].fileName, data.listGeneralCodeFile[i - 1].fileCode_PK, i - 1);
+                    $("#CountryofManufactur").get(0).options[i] = new Option(data.listGeneralCodeFile[i - 1].fileName, data.listGeneralCodeFile[i - 1].fileCode_PK, i - 1);
+
+                }
+
+
+            },
+            error: function () {
+                alert("Failed to load Country");
+
+
+            }
+        });
+
+    }
+    function Mou() {
+
+        $.ajax({
+            url: server + "CoreCommon/api/Common/GetCodeFile?FileTypeCode=20&LevelCode=19&COMPANY_CODE=" + pCompanyCode,
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+                debugger
+  
+                $("#FileCodeForMou").get(0).options.length = 0;
+                $("#FileCodeForMou").get(0).options[0] = new Option("Select Type", "-1");
+                for (var i = 1; i < data.listGeneralCodeFile.length + 1; i++) {
+
+                    $("#FileCodeForMou").get(0).options[i] = new Option(data.listGeneralCodeFile[i - 1].fileName, data.listGeneralCodeFile[i - 1].fileCode_PK, i - 1);
+
+                }
+
+
+            },
+            error: function () {
+                alert("Failed to load MOU");
+
+
+            }
+        });
+
+    }
+    function SaveProduct() {
+       
+
+        var jObjMain = {
+            "ProductID": "",
+            "RepairingStatus": 0,
+            "chkSampleProduct": "",
+            "chkServiceProduct": 0,
+            "chkMaintenanceServiceProduct": 0,
+            "Status": "",
+            "PackCCSize": "",
+            "ProductName": "",
+            "FileCodeForProductCategory": 0,
+            "chkSerialNoManage": 0,
+            "VAT": "",
+            "Description": "",
+            "FileCodeForMou": 0,
+            "CountryofManufactur": 0,
+            "CountryofOrigin": "",
+            "PartNumber": "",
+            "ProductSeries": "",
+            "FileCodeForBrand": "",
+            "WorkingUnitCode": 0,
+            "ProductCode_PK": 0,
+            "TPRate": "",
+            "CompanyCode_FK": "",
+            "ActionType": "",
+            "UserCode": "",
+            "ActionDate": "",
+        };
+     
+        jObjMain.ProductID = $("#ProductID").val();
+        jObjMain.RepairingStatus = $("#RepairingStatus").val();
+        jObjMain.chkSampleProduct = Number(document.getElementById("chkSampleProduct").checked);
+        jObjMain.chkServiceProduct = Number(document.getElementById("chkServiceProduct").checked);
+        jObjMain.chkMaintenanceServiceProduct = Number(document.getElementById("chkMaintenanceServiceProduct").checked);
+        jObjMain.Status = $("#Status").val();
+        jObjMain.PackCCSize = $("#PackCCSize").val();
+        jObjMain.ProductName = $("#ProductName").val();
+        jObjMain.FileCodeForProductCategory = $("#FileCodeForProductCategory").val();
+        jObjMain.chkSerialNoManage = Number(document.getElementById("chkSerialNoManage").checked);
+        jObjMain.VAT = $("#VAT").val();
+        jObjMain.Description = $("#Description").val();
+        jObjMain.FileCodeForMou = $("#FileCodeForMou").val();
+        jObjMain.CountryofManufactur = $("#CountryofManufactur").val();
+        jObjMain.CountryofOrigin = $("#CountryofOrigin").val();
+        jObjMain.PartNumber = $("#PartNumber").val();
+        jObjMain.ProductSeries = $("#ProductSeries").val();
+        jObjMain.FileCodeForBrand = $("#FileCodeForBrand").val();
+        jObjMain.WorkingUnitCode = $("#WorkingUnitCode").val();
+        jObjMain.ProductCode_PK = $("#ProductCode_PK").val();
+        jObjMain.TPRate = $("#TPRate").val();
+        jObjMain.CompanyCode_FK = pCompanyCode;
+        jObjMain.ActionType = "";
+        jObjMain.UserCode = pUserCode;
+        jObjMain.ActionDate = "";
+        var datas = JSON.stringify(jObjMain);
+
+        $.ajax(
+            {
+                url: server + "/Procurement/api/Product/SaveProduct",
+                dataType: "json",
+                processData: false,
+                contentType: 'application/json',
+                type: "POST",
+                data: datas,
+                success: function (data) {
+                   
+                    alert("Save Succesfull!");
+                },
+                error: function () {
+                    alert("There was error saving data!");
+                }
+            }
+        );
+
+
+    }
+    function PopUpforProduct() {
+          
+        var vURL = encodeURIComponent(server +"/procurement/api/Product/GetProductsList");
+
+        var vColHeaderName = 'Product Id, Product Name , TP Rate';
+            var vTitle = 'Product PopUp';
+        var vColumn = 'ProductID,ProductName,TPRate';
+        var vPKValue = 'ProductCode_PK';
+
+        callModal("../Product/GetData?pDynColumns=" + vColHeaderName + "&pTitle=" + vTitle + "&pURL=" + vURL + "&pColumns=" + vColumn + "&pPkCode=" + vPKValue);
+       
+    }
+    function AssignValueCommonPopUPNewListUI() {
+        if (vCalleeVar1 != null && vCalleeVar1 != undefined) {
+            $("#ProductCode").val(vCalleeVar1);
+            GetProduct(vCalleeVar1);
+
+        }
+        var vSpan = document.getElementsByClassName("close")[0];
+        vSpan.onclick();
+    }
+    function GetProduct(vCalleeVar1) {
+       
+        $.ajax({
+            url: server + "procurement/api/Product/GetProductByCode?productcode=" + vCalleeVar1,
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+                debugger
+                $("#ProductId").val(data.products.ProductID);
+                $("#ProductName").val(data.products.ProductName);
+                $("#Description").val(data.products.Description);
+                $("#PackCCSize").val(data.products.PackCCSize);
+                $("#PartNumber").val(data.products.PartNumber);
+                $("#ProductSeries").val(data.products.ProductSeries);
+                $("#TPRate").val(data.products.TPRate);
+                $("#VAT").val(data.products.VAT);
+                $("#FileCodeForProductCategory").val(data.products.FileCodeForProductCategory).change();
+                $("#FileCodeForBrand").val(data.products.FileCodeForBrand).change();
+                $("#FileCodeForMou").val(data.products.FileCodeForMou).change();
+                $("#CountryofOrigin").val(data.products.CountryofOrigin).change();
+                $("#CountryofManufactur").val(data.products.CountryofManufactur).change();
+                $("#Status").get(0).selectedIndex = data.products.Status;
+                $("#RepairingStatus").get(0).selectedIndex = data.products.RepairingStatus;
+                if (data.products.chkSampleProduct == 1) {
+                    $("#chkSampleProduct").prop('checked', true);
+                }
+                if (data.products.chkServiceProduct == 1) {
+                    $("#chkServiceProduct").prop('checked', true);
+                }
+                if (data.products.chkMaintenanceServiceProduct == 1) {
+                    $("#chkMaintenanceServiceProduct").prop('checked', true);
+                }
+                if (data.products.chkSerialNoManage == 1) {
+                    $("#chkSerialNoManage").prop('checked', true);
+                }
+            },
+            error: function () {
+                alert("Failed to load Product Info");
+
+
+            }
+        });
+    }
+    function NewPage() {
+        window.location.href = "../Product/ProductUI";
+    }
+</script>
+
+<div class="container">
+    <fieldset>
+        <legend>Product</legend>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-5">
+                        <label class="col-md-15 control-label">Product Id</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.TextBox("ProductId", null, new { @class = "form-control", ondblclick = "PopUpforProduct()", PlaceHolder="Double click" })
+                        @Html.Hidden("ProductCode", null)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-5">
+                        <label class="col-md-15 control-label">Product Name</label>
+
+                    </div>
+                    <div class="col-md-5">
+
+                        @Html.TextBox("ProductName", null, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+    <fieldset>
+        <legend>Product Information</legend>
+        <div class="row" style="margin-left:10px">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="col-md-13">
+                        <input type="checkbox" id="chkSampleProduct" name="chkSampleProduct" onclick="ClickCheckBox();" value=""> Sample<br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="col-md-13">
+                        <input type="checkbox" id="chkSerialNoManage" name="chkSerialNoManage" onclick="ClickCheckBox();" value=""> BarCode Manageable<br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-left:10px">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="col-md-13">
+                        <input type="checkbox" id="chkServiceProduct" name="chkServiceProduct" onclick="ClickCheckBox();" value=""> Service<br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="col-md-13">
+                        <input type="checkbox" id="chkMaintenanceServiceProduct" name="chkMaintenanceServiceProduct" onclick="ClickCheckBox();" value=""> Maintenance Service<br>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label class="col-md-15 control-label">Product Category</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.DropDownList("FileCodeForProductCategory", new SelectList("", "Value", "Text"), new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-7">
+                        <label class="col-md-15 control-label">Repairing Status</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        
+                        <select id="RepairingStatus" style="width: 160px;height: 24px;padding-left: 4px;border: 1px solid #ccc !important;border-radius: 4px !important">
+                            <option value="0">RSP</option>
+                            <option value="1">NRSP</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label class="col-md-15 control-label">Product Series/Model</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.TextBox("ProductSeries", null, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-7">
+                        <label class="col-md-15 control-label">Brand Name</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.DropDownList("FileCodeForBrand", new SelectList("", "Value", "Text"), new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label class="col-md-15 control-label">Country of Origin</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.DropDownList("CountryofOrigin", new SelectList("", "Value", "Text"), new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-7">
+                        <label class="col-md-15 control-label">Part Number</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.TextBox("PartNumber", null, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label class="col-md-15 control-label">MOU</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.DropDownList("FileCodeForMou", new SelectList("", "Value", "Text"), new { @class = "form-control" })
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-7">
+                        <label class="col-md-15 control-label">Country of Manufacture</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.DropDownList("CountryofManufactur", new SelectList("", "Value", "Text"), new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label class="col-md-15 control-label">Description</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.TextArea("Description", null, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-7">
+                        <label class="col-md-15 control-label">Status</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        <select id="Status" style="width: 160px;height: 24px;padding-left: 4px;border: 1px solid #ccc !important;border-radius: 4px !important">
+                            <option value="1">Active</option>
+                            <option value="0">InActive</option>
+                            
+
+
+                        </select>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label class="col-md-15 control-label">TP Rate</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.TextBox("TPRate", null, new { @class = "form-control" , onkeypress = "InputOnlyDecimalNumber(event);", maxlength = 18 })
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-7">
+                        <label class="col-md-15 control-label">VAT</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.TextBox("VAT", null, new { @class = "form-control", onkeypress = "InputOnlyDecimalNumber(event);", maxlength = 18 })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+    <fieldset>
+        <legend>Product Packing Information</legend>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label class="col-md-15 control-label">Pack/CC Size</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.TextBox("PackCCSize", null, new { @class = "form-control" })
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </fieldset>
+    
+        <div class="box">
+            <button type="button" id="addBtn" class="btn-primary" onclick="SaveProduct()" style="width:100px">Save</button>
+            <button type="button" id="addBtn" class="btn-info" onclick="NewPage()" style="width:100px">New</button>
+
+        </div>
+    
+</div>
+<div id="ModalView" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+
+            <span class="close">×</span>
+        </div>
+        <div class="modal-body">
+            <div class="modal-body">
+                <div id="DivNew">
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

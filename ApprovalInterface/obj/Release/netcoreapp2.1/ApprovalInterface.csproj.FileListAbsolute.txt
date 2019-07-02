@@ -1,0 +1,14 @@
+E:\CenterPoint\CenterPointPortal\ApprovalInterface\bin\Release\netcoreapp2.1\ApprovalInterface.deps.json
+E:\CenterPoint\CenterPointPortal\ApprovalInterface\bin\Release\netcoreapp2.1\ApprovalInterface.dll
+E:\CenterPoint\CenterPointPortal\ApprovalInterface\bin\Release\netcoreapp2.1\ApprovalInterface.pdb
+E:\CenterPoint\CenterPointPortal\ApprovalInterface\bin\Release\netcoreapp2.1\ApprovalModel.dll
+E:\CenterPoint\CenterPointPortal\ApprovalInterface\bin\Release\netcoreapp2.1\CommonModel.dll
+E:\CenterPoint\CenterPointPortal\ApprovalInterface\bin\Release\netcoreapp2.1\ApprovalModel.pdb
+E:\CenterPoint\CenterPointPortal\ApprovalInterface\bin\Release\netcoreapp2.1\CommonModel.pdb
+E:\CenterPoint\CenterPointPortal\ApprovalInterface\obj\Release\netcoreapp2.1\ApprovalInterface.csprojAssemblyReference.cache
+E:\CenterPoint\CenterPointPortal\ApprovalInterface\obj\Release\netcoreapp2.1\ApprovalInterface.csproj.CoreCompileInputs.cache
+E:\CenterPoint\CenterPointPortal\ApprovalInterface\obj\Release\netcoreapp2.1\ApprovalInterface.AssemblyInfoInputs.cache
+E:\CenterPoint\CenterPointPortal\ApprovalInterface\obj\Release\netcoreapp2.1\ApprovalInterface.AssemblyInfo.cs
+E:\CenterPoint\CenterPointPortal\ApprovalInterface\obj\Release\netcoreapp2.1\ApprovalInterface.csproj.CopyComplete
+E:\CenterPoint\CenterPointPortal\ApprovalInterface\obj\Release\netcoreapp2.1\ApprovalInterface.dll
+E:\CenterPoint\CenterPointPortal\ApprovalInterface\obj\Release\netcoreapp2.1\ApprovalInterface.pdb

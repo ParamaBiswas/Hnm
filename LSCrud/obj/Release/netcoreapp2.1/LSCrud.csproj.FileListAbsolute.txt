@@ -1,0 +1,9 @@
+E:\CenterPoint\CenterPointPortal\LSCrud\bin\Release\netcoreapp2.1\LSCrud.deps.json
+E:\CenterPoint\CenterPointPortal\LSCrud\bin\Release\netcoreapp2.1\LSCrud.dll
+E:\CenterPoint\CenterPointPortal\LSCrud\bin\Release\netcoreapp2.1\LSCrud.pdb
+E:\CenterPoint\CenterPointPortal\LSCrud\obj\Release\netcoreapp2.1\LSCrud.csprojAssemblyReference.cache
+E:\CenterPoint\CenterPointPortal\LSCrud\obj\Release\netcoreapp2.1\LSCrud.csproj.CoreCompileInputs.cache
+E:\CenterPoint\CenterPointPortal\LSCrud\obj\Release\netcoreapp2.1\LSCrud.AssemblyInfoInputs.cache
+E:\CenterPoint\CenterPointPortal\LSCrud\obj\Release\netcoreapp2.1\LSCrud.AssemblyInfo.cs
+E:\CenterPoint\CenterPointPortal\LSCrud\obj\Release\netcoreapp2.1\LSCrud.dll
+E:\CenterPoint\CenterPointPortal\LSCrud\obj\Release\netcoreapp2.1\LSCrud.pdb

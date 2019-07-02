@@ -1,0 +1,128 @@
+body{
+  padding:0;
+  margin:0;
+}
+
+.vid-container {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background: #d9d9d9;
+}
+.bgvid.back {
+  position: fixed; right: 0; bottom: 0;
+  min-width: 100%; min-height: 100%;
+  width: auto; height: auto; z-index: -100;
+}
+.inner {
+  position: absolute;
+}
+.inner-container{
+  width:400px;
+  height:400px;
+  position:absolute;
+  top:calc(50vh - 200px);
+  left:calc(50vw - 200px);
+  overflow:hidden;
+}
+.bgvid.inner{
+  top:calc(-50vh + 200px);
+  left:calc(-50vw + 200px);
+  filter: url("data:image/svg+xml;utf9,<svg%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'><filter%20id='blur'><feGaussianBlur%20stdDeviation='10'%20/></filter></svg>#blur");
+  -webkit-filter:blur(10px);
+  -ms-filter: blur(10px);
+  -o-filter: blur(10px);
+  filter:blur(10px);
+}
+.box {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    font-family: Helvetica;
+    color: #fff;
+    /*background-image: linear-gradient(#F0F2F0,#000C40);*/
+    /*background-color: rgba(25,25,25, 0.7);*/
+    background: #191919;
+    padding: 30px 0px;
+}
+.box h1{
+  text-align:center;
+  margin:30px 0;
+  font-size:30px;
+}
+
+    .box input[type="text"],.box input[type="password"] {
+        
+        border: 0;
+        background: none;
+        display: block;
+        margin: 20px auto;
+        border: 2px solid #3498db;
+        padding: 15px 15px 15px 24px;
+        width: 300px;
+        outline: none;
+        color:white;
+        border-radius: 24px;
+        transition: 0.25s;
+    }
+
+        .box input[type="text"], .box input[type="password"]:focus {
+            color: dodgerblue;
+        }
+
+    /*.box input[type="text"] {
+        background: url(../Content/Logo/email.png) no-repeat;
+        padding: 25px 50px;
+        color: white;
+        height: 25px;
+    }*/
+
+        .box input {
+            display: block;
+            width: 300px;
+            margin: 20px auto;
+            padding: 15px;
+            background: rgba(245, 245, 245, 0.33);
+            color: #fff;
+            border: 0;
+            border-radius: 12px;
+        }
+.box input:focus,.box input:active,.box button:focus,.box button:active{
+  outline:none;
+}
+    .box button {
+        background: rgba(245, 245, 245, 0.33);
+        border: 0;
+        color: #fff;
+        padding: 10px;
+        font-size: 20px;
+        width: 300px;
+        margin: 20px auto;
+        display: block;
+        cursor: pointer;
+        border-radius: 24px;
+    }
+.box button:active{
+  background:#27ae60;
+}
+.box p{
+  font-size:14px;
+  text-align:center;
+  font-family: cursive !important;
+  font-weight: 500 !important;
+  line-height: 1.1 !important;
+  color: navy !important;
+}
+.box p span{
+  cursor:pointer;
+  color:#666;
+}
+
+    .box span {
+        font-size: 14px;
+        text-align: center;
+        font-family: cursive !important;
+        font-weight: 500 !important;
+        line-height: 1.1 !important;
+        color: white;
+    }

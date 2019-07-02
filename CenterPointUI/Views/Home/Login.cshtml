@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Log in";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+
+
+    <link rel="stylesheet" href="~/Content/style-login.css">
+
+}
+
+<script type="text/javascript" ></script>
+
+
+<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+<script src="~/Scripts/jquery.min.js"></script>
+
+<script src="~/Scripts/moment.js"></script>
+
+@*<script>
+    $(document).ready(function() {
+
+        $("#inputwrapper").click(function () {
+            console.log("Click Korsi");
+        var checked = $(this).is(":checked");
+        if (checked) {
+            $("#password").attr("type", "text");
+        } else {
+            $("#password").attr("type", "password");
+        }
+    });
+
+});
+</script>*@
+
+<style>
+    .text-danger {
+            /*position: absolute;
+            margin-left: 120px;
+            margin-top: -20px;*/
+            position: absolute;
+    margin-left: 102px;
+    margin-top: -20px;
+
+    }
+</style>
+<div class="vid-container" >
+
+    <div class="inner-container">
+
+        <div class="box">
+            <h1>CenterPoint</h1>
+
+            @Html.AntiForgeryToken()
+            @Html.TextBox("UserName", null, new { @class = "", placeholder = "Username" , style = "Height:40px" })
+            @Html.Password("Password", null, new { @class = "", placeholder = "Password", id = "PassId" , style = "Height:40px" })
+
+            <div>
+
+                <input type="checkbox" id="showPass" style="margin-left: 103px; margin-top: -15px; position: absolute" />
+                <span style="color:white; font-size: 14px; margin-left: 263px; margin-top: 260px; position: absolute; top: -33px"> Show Password</span>
+
+            </div>
+            @*if (ViewData["Error"] != null)
+        {
+            <p style="font-size:10px; color:red;"> @ViewData["Error"].ToString()</p>
+
+        }*@
+            <button type="submit">Login</button>
+
+            <p>@Html.ActionLink("Forget Password?", "ForgetPassword")</p>
+
+            <p>@Html.ActionLink("Register as a new user", "Register")</p>
+
+
+            @*<div class="pull-right">Powered By <img src="~/Content/img/LEADS.jpg" alt="LEADS" width="40" height="20"/>
+
+        </div>*@
+
+        </div>
+        </div>
+</div>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@
+<script>
+    $(document).ready(function () {
+    
+        $("#showPass").change(function () {
+            var checked = $(this).is(":checked");
+            console.log(checked);
+        if (checked) {
+            $("#PassId").attr("type", "text");
+        } else {
+            $("#PassId").attr("type", "password");
+        }
+    });
+
+});
+    </script>

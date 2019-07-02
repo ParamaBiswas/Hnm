@@ -1,0 +1,186 @@
+﻿
+@{
+    ViewData["Title"] = "SupplierPopup";
+}
+<style>
+
+
+    .modal {
+        display: none; /* Hidden by default 
+    position: fixed; /* Stay in place 
+    z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        margin-top: -80px !important;
+        padding: 0;
+        border: 1px solid #888;
+        width: 65%;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s
+    }
+    .modal-body {
+        padding: 2px 16px;
+    }
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #668964;
+        color: white;
+    }
+</style>
+<script>
+    
+    function NewPage() {
+        debugger
+        var vURL = encodeURIComponent("http://192.168.20.29/CoreCommon/api/Common/GetCodeFile?FileTypeCode=224&LevelCode=201&COMPANY_CODE=1");
+
+        var vColHeaderName = 'File Id, File Name , File Code';
+        var vTitle = 'Product PopUp';
+        var vColumn = 'fileId,fileName,fileCode_PK';
+        var vListName = 'listGeneralCodeFile';
+        callModal("../Supplier/GetData?pDynColumns=" + vColHeaderName + "&pTitle=" + vTitle + "&pURL=" + vURL + "&pColumns=" + vColumn + "&pListName=" + vListName);
+
+    }
+    function callModal(vURL, vDATA) {
+        var vModal = document.getElementById('ModalView');
+        var vSpan = document.getElementsByClassName("close")[0];
+        
+        $.ajax({
+            type: "GET",
+            url: vURL,
+            data: vDATA,
+
+            dataType: "html",
+            success: function (data) {
+                $('#DivNew').html(data);
+
+                vModal.style.display = "block";
+
+            }
+
+        });
+        vSpan.onclick = function () {
+            vModal.style.display = "none";
+        }
+    }
+    function AssignValueCommonPopUPNewListUI() {
+        alert(vCalleeVar1);
+        alert(vCalleeVar2);
+        alert(vCalleeVar3);
+        var vSpan = document.getElementsByClassName("close")[0];
+        vSpan.onclick();
+
+    }
+   
+</script>
+<h2>SupplierPopup</h2>
+
+<div class="container" style="margin-top:85px">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Supplier Name</label>
+                    @Html.TextBox("SupplierName", null, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Country Name</label>
+                    @Html.TextBox("Country", null, new { @class = "form-control" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Alt E-Mail</label>
+                    @Html.TextBox("AlternateEmail", null, new { @class = "form-control" })
+                    @*<button onclick="myFunction()">Click me</button>*@
+                </div>
+            </div>
+            <div class="col-md-10">
+                <button class="btn btn-primary btn-lg" data-toggle="modal" onclick="NewPage();">
+                    Launch demo modal
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="ModalView" class="modal" >
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+
+            <span class="close">×</span>
+        </div>
+        <div class="modal-body">
+            <div class="modal-body">
+                <div id="DivNew">
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@*<div class="container">
+    <h2>Basic Modal Example</h2>
+    <!-- Trigger the modal with a button -->
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" onclick="NewPage();" data-target="#myModal">Open Modal</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" >&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="overflow: auto">
+                        <table class="ListTable">
+                            <tr class="HeaderRow">
+                                <td class="HeaderCell"><b>File Name</b></td>
+                                <td class="HeaderCell"><b>File Code</b></td>
+                                <td class="HeaderCell"><b>Short Name</b></td>
+
+                            </tr>
+                        </table>
+                     
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>*@

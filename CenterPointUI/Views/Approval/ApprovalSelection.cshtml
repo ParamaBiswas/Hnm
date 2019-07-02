@@ -1,0 +1,1025 @@
+﻿<script>
+    var objAppLevelDetAppTypeApproverList_VW = new Array();
+    var objAppLevelDetAppTypeList = new Array();
+    var popUpFlag;
+    var vActiveYN = 1;
+    var loadFlag = 0;
+    var vAppLvDefinitionDetCode_FK;
+    var vApproverCode;
+    //var server = "http://192.168.20.29";
+    var server = "http://192.168.20.83";
+    //var ApproverList_vw = new Array();
+    function ChangeActiveYN(index) {
+        // alert('hi');
+        if (vActiveYN == 0)
+            vActiveYN = 1;
+        else
+            vActiveYN = 0;
+        //alert('b '+objAppLevelDetAppTypeApproverList_VW[index].ActiveYN);
+        objAppLevelDetAppTypeApproverList_VW[index].ActiveYN = vActiveYN;
+        //alert('a '+objAppLevelDetAppTypeApproverList_VW[index].ActiveYN);
+    }
+    window.onload = function () {
+        PopulateApproverType();
+        PopulateApproverLevel();
+        $("#EmployeeInfo").hide();
+        $("#DesignationInfo").hide();
+        $("#approverList").hide();
+
+    }
+    function ApproverTypeOnChange() {
+        var vApproverType = $('#ApproverType').val();
+        //alert(vApproverType);
+        if (vApproverType == 0) {
+            $("#EmployeeInfo").hide();
+            $("#DesignationInfo").hide();
+            $("#buttonAdd").show();
+
+        }
+        if (vApproverType == 1) {
+            // alert('in');
+            $("#EmployeeInfo").show();
+            $("#DesignationInfo").hide();
+            $("#buttonAdd").hide();
+            
+        }
+        if (vApproverType == 2) {
+            $("#EmployeeInfo").hide();
+            $("#DesignationInfo").show();
+            $("#buttonAdd").hide();
+            PopulateDesignationType();
+            PopulateDesignationOf();
+            PopulateDesignationFor();
+        }
+    }
+    function AddApprover() {
+        debugger
+        var index = $("#tblApproverList").children("tr").length;
+        //alert(index);
+        var vApproverName = '';
+        var vDesignationType = '';
+        var vDesignation = '';
+        var vDesignationOf = '';
+        var vDesignationFor = '';
+        vApproverCode = '';
+        var type = $("#ApproverType").val();
+        if ($("#ApproverLevel").val() == -1) {
+            alert("Select Approval Level");
+            return;
+        }
+        if (type == 1) {
+            vApproverName = $("#ApproverName").val();
+            vApproverCode = $("#EmployeeCode").val();
+            
+        }
+        else if (type == 2) {
+            vDesignationType = $("#DesignationType option:selected").text();
+            vDesignation = $("#Designation").val();
+            vDesignationOf = $("#DesignationOf option:selected").text();
+            vDesignationFor = $("#DesignationFor option:selected").text();
+        }
+        //var vApproverType = $("#ApproverType option:selected").text();
+        var vApproverType = parseInt($("#ApproverType").val());
+        var vApprovalLevel = $("#ApproverLevel option:selected").text();
+        var vApprovalLevel = parseInt($("#ApproverLevel").val());
+        AddApproverToList(-1, -1, index, vApprovalLevel, vApproverType, vApproverName, vApproverCode, vDesignationType, vDesignation, vDesignationOf, vDesignationFor,1);
+    }
+
+    function AddApproverToList(pkMain, pkApproverList, index, vApproverLevel, vApproverType, vApproverName, vApproverCode, vDesignationType, vDesignation, vDesignationOf, vDesignationFor,vCheck) {
+        //alert(vApproverType + "," + index);
+        debugger
+        if (vApproverName == null)
+            vApproverName = "";
+        if (vDesignation == null)
+            vDesignation = "";
+        if (vDesignationOf == null)
+            vDesignationOf = "";
+        if (vDesignationFor == null)
+            vDesignationFor = "";
+        if (pkMain == -1)
+            pkMain = null;
+        if (pkApproverList == -1)
+            pkApproverList = null;
+        $("#approverList").show();
+        var indexCell = "<td><input type='hidden' id='Approver" +
+            index +
+            "_ApproverLevel' name='ApproverInfo[" +
+            index +
+            "].ApproverLevel' value='" +
+            vApproverLevel +
+            "' />" +
+            vApproverLevel +
+            "</td>";
+
+            var ApproverTypeCell = "<td><input type='hidden' id='Approver" +
+                index +
+                "_ApproverType' name='ApproverInfo[" +
+                index +
+                "].ApproverType' value='" +
+                vApproverType +
+                "' />" +
+                setApproverTypeName(vApproverType) +
+                "</td>";
+
+       
+        var ApproverNameCell = "<td><input type='hidden' id='Approver" +
+            index +
+            "ApproverName' name='ApproverInfo[" +
+            index +
+            "].ApproverName' value='" +
+            vApproverName +
+            "' />" +
+            vApproverName +
+            "</td>";
+        var ApproverCodeCell = "<td style='display:none'><input type='hidden' id='Approver" +
+            index +
+            "ApproverCode' name='ApproverInfo[" +
+            index +
+            "].ApproverCode' value='" +
+            vApproverCode +
+            "' />" +
+            vApproverCode +
+            "</td>";
+
+        var DesignationTypeCell = "<td><input type='hidden' id='Approver" +
+            index +
+            "_DesignationType' name='ApproverInfo[" +
+            index +
+            "].DesignationType' value='" +
+            vDesignationType +
+            "' />" +
+            vDesignationType +
+            "</td>";
+
+        var DesignationCell = "<td><input type='hidden' id='Approver" +
+            index +
+            "_Designation' name='ApproverInfo[" +
+            index +
+            "].Designation' value='" +
+            vDesignation +
+            "' />" +
+            vDesignation +
+            "</td>";
+
+        var DesignationOfCell = "<td><input type='hidden' id='Approver" +
+            index +
+            "_DesignationOf' name='ApproverInfo[" +
+            index +
+            "]._DesignationOf' value='" +
+            vDesignationOf +
+            "' />" +
+            vDesignationOf +
+            "</td>";
+        var DesignationForCell = "<td><input type='hidden' id='Approver" +
+            index +
+            "_DesignationFor' name='ApproverInfo[" +
+            index +
+            "].DesignationFor' value='" +
+            vDesignationFor +
+            "' />" +
+            vDesignationFor +
+            "</td>";
+        var ActiveCell = "<td><input type='checkbox' id='Approver" +
+            index +
+            "_checkbox' name='ApproverInfo[" +
+            index +
+            "].checkbox'" +
+            "checked='true' onchange='ChangeActiveYN(" +
+            index +
+            ") ' />" +
+            "</td>";
+        var ActiveCellFalse = "<td><input type='checkbox' id='Approver" +
+            index +
+            "_checkbox' name='ApproverInfo[" +
+            index +
+            "].checkbox'" +
+            "checked='false' onchange='ChangeActiveYN(" +
+            index +
+            ") ' />" +
+            "</td>";
+        var newRow;
+        if (vCheck == 0) {
+            newRow = "<tr id='tblApproverList" +
+                index +
+                "'>" +
+                indexCell +
+                ApproverTypeCell +
+                ApproverNameCell +
+                ApproverCodeCell+
+                DesignationTypeCell +
+                DesignationCell +
+                DesignationOfCell +
+                DesignationForCell +
+                ActiveCellFalse +
+                "</tr>";
+        }
+        else {
+            newRow = "<tr id='tblApproverList" +
+                index +
+                "'>" +
+                indexCell +
+                ApproverTypeCell +
+                ApproverNameCell +
+                ApproverCodeCell+
+                DesignationTypeCell +
+                DesignationCell +
+                DesignationOfCell +
+                DesignationForCell +
+                ActiveCell +
+                "</tr>";
+        }
+        //var newRow = "<tr id='tblApproverList" +
+        //    index +
+        //    "'>" +
+        //    indexCell +
+        //    ApproverTypeCell +
+        //    ApproverNameCell +
+        //    DesignationTypeCell +
+        //    DesignationCell +
+        //    DesignationOfCell +
+        //    DesignationForCell +
+        //    ActiveCell +
+        //    "</tr>";
+
+        $("#tblApproverList").append(newRow);
+        var vDesignationType_Val = $("#DesignationType").val();
+        var vDesignationOf_Val = $("#DesignationOf").val();
+        var vDesignationFor_Val = $("#DesignationFor").val();
+        var vApproverType_Val = $("#ApproverType").val();
+        if (vDesignationType_Val == null)
+            vDesignationType_Val = 0;
+        if (vDesignationOf_Val == null)
+            vDesignationOf_Val = 0;
+        if (vDesignationFor_Val == null)
+            vDesignationFor_Val = 0;
+        var objAppLevelDetAppTypeApproverList_VW = new Array();
+        debugger
+        var newFlag = true;
+        if (loadFlag == 1) {
+            loadFlag = 0;
+            newFlag = false;
+        }
+
+        objAppLevelDetAppTypeApproverList_VW.push({ AppLvDetAppTypeApprover_PK: pkApproverList, DesignationType: vDesignationType_Val, ApproverOfDept: vDesignationOf_Val, ApproverForDept: vDesignationFor_Val, ActiveYN: vActiveYN, LevelNo: vApproverLevel, ApproverEmpName_VW: vApproverName, ApproverEmpCode: vApproverCode, Designation_VW: vDesignation, ApproverLevelNo_VW: vApproverLevel, ApproverType_VW: vApproverType, SL_VW: index, ApproverOfDept_Name_VW: vDesignationOf, ApproverForDept_Name_VW: vDesignationFor, DesignationType_Name_VW: vDesignationType, ApproverTypeVal_VW: vApproverType_Val, IsNew: newFlag });
+
+
+        //var level = $("#ApproverLevel").val();
+        var vMapNo = $("#MappingNo").val();
+        var vBusinessObjName = $("#BusinessObjectName").val();
+        var vModuleName = $("#Module").val();
+        var vApprovalLevel = $("#ApprovalLevelType").val();
+        var vNoOfLevel = $("#NoOfApprovalLevel").val();
+        var vSerialNo = $("#SerialNo").val();
+        alert(vAppLvDefinitionDetCode_FK);
+        debugger
+        objAppLevelDetAppTypeList.push({ AppLvDefDetAppTypeCode_PK: pkMain, AppLvDefinitionDetCode_FK: vAppLvDefinitionDetCode_FK, ApproverLevelNo: vApproverLevel, ApproverType: vApproverType, objAppLevelDetAppTypeApproverList_VW: objAppLevelDetAppTypeApproverList_VW, ModuleName_VW: vModuleName, BusinessObjectName_VW: vBusinessObjName, ModuleObjMapCode_VW: vMapNo, SLNo_VW: vSerialNo, AppLevelType_VW: vApprovalLevel, NoOfAppLevel_VW: vNoOfLevel, IsNew: newFlag });
+    }
+    function Save() {
+        alert('In save');
+        var vMapNo= $("#MappingNo").val();
+        var vBusinessObjName = $("#BusinessObjectName").val();
+        var vModuleName = $("#Module").val();
+        var vApprovalLevel=$("#ApprovalLevelType").val();
+        var vNoOfLevel=$("#NoOfApprovalLevel").val();
+        var vSerialNo = $("#SerialNo").val();
+        alert(vAppLvDefinitionDetCode_FK);
+        debugger
+        var values = JSON.stringify({
+
+            //AppLvDefinitionDetCode_FK: vCalleeVar4,
+            //ModuleName_VW: vModuleName,
+            //BusinessObjectName_VW: vBusinessObjName,
+            //ModuleObjMapCode_VW: vMapNo,
+            //SLNo_VW: vSerialNo,
+            //AppLevelType_VW: vApprovalLevel,
+            //NoOfAppLevel_VW: vNoOfLevel,
+            //objAppLevelDetAppTypeApproverList_VW: objAppLevelDetAppTypeApproverList_VW
+            appLevelDefDet: objAppLevelDetAppTypeList
+
+        });
+        alert(values);
+        alert(vMapNo + ' ' + vBusinessObjName + ' ' + vModuleName + ' ' + vApprovalLevel + ' ' + vNoOfLevel + ' ' + vSerialNo);
+        debugger
+        $.ajax({
+            type: "POST",
+            url: server+ "/CoreCommon/api/ApprovalApproverSelection/SaveApproverSelectionInformations",
+            //url: "http://192.168.20.29/CoreSecurity/api/values",
+            contentType: 'application/json',
+            data: JSON.stringify({
+                
+                //AppLvDefinitionDetCode_FK: vCalleeVar4,
+                //ModuleName_VW: vModuleName,
+                //BusinessObjectName_VW: vBusinessObjName,
+                //ModuleObjMapCode_VW: vMapNo,
+                //SLNo_VW: vSerialNo,
+                //AppLevelType_VW: vApprovalLevel,
+                //NoOfAppLevel_VW: vNoOfLevel,
+                //objAppLevelDetAppTypeApproverList_VW: objAppLevelDetAppTypeApproverList_VW
+                appLevelDefDet: objAppLevelDetAppTypeList
+ 
+            }),
+
+            crossDomain: "true",
+            dataType: "json",
+
+            success: function (data) {
+                debugger
+                alert('ok');
+                alert(data.vMSG);
+            }
+        });
+    }
+    function New() {
+        location.href = 'ApprovalSelection';
+    }
+    function Delete() {
+
+    }
+    function PopulateApproverType() {
+        $("#ApproverType").get(0).options.length = 0;
+        $("#ApproverType").get(0).options[0] = new Option("Select Type", "-1");
+        $("#ApproverType").get(0).options[1] = new Option("Reporting Boss", "0");
+        $("#ApproverType").get(0).options[2] = new Option("Specific Employee", "1");
+        $("#ApproverType").get(0).options[3] = new Option("Designation", "2");
+        $("#ApproverType").get(0).options[4] = new Option("Own Reporting Boss", "3");
+    }
+    function PopulateDesignationOf() {
+        $("#DesignationOf").get(0).options.length = 0;
+        $("#DesignationOf").get(0).options[0] = new Option("Select", "-1");
+        $("#DesignationOf").get(0).options[1] = new Option("HR", "2");
+        $("#DesignationOf").get(0).options[2] = new Option("Own Department", "3");
+        $("#DesignationOf").get(0).options[3] = new Option("Own Division", "4");
+        $("#DesignationOf").get(0).options[4] = new Option("Own Branch", "5");
+
+        $.ajax({
+            url: server+ "/CoreCommon/api/Common/GetCodeFile?FileTypeCode=10&LevelCode=189&COMPANY_CODE=1",
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+
+
+                for (var i = 5; i < data.listGeneralCodeFile.length + 1; i++) {
+
+                    $("#DesignationOf").get(0).options[i] = new Option(data.listGeneralCodeFile[i - 1].fileName, data.listGeneralCodeFile[i - 1].fileCode_PK, i - 1);
+
+                }
+
+            },
+            error: function () {
+                alert("Failed to load business Types");
+
+
+            }
+        });
+
+    }
+    function PopulateDesignationFor() {
+        $("#DesignationFor").get(0).options.length = 0;
+        $("#DesignationFor").get(0).options[0] = new Option("Select", "-1");
+        $("#DesignationFor").get(0).options[1] = new Option("All Department", "0");
+        $("#DesignationFor").get(0).options[2] = new Option("Own Department", "1");
+        $("#DesignationFor").get(0).options[3] = new Option("Own Division", "2");
+        $("#DesignationFor").get(0).options[4] = new Option("Own Branch", "3");
+        $.ajax({
+            url: server +"/CoreCommon/api/Common/GetCodeFile?FileTypeCode=10&LevelCode=189&COMPANY_CODE=1",
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+
+
+                for (var i = 4; i < data.listGeneralCodeFile.length + 1; i++) {
+
+                    $("#DesignationFor").get(0).options[i] = new Option(data.listGeneralCodeFile[i - 1].fileName, data.listGeneralCodeFile[i - 1].fileCode_PK, i - 1);
+
+                }
+
+            },
+            error: function () {
+                alert("Failed to load business Types");
+
+
+            }
+        });
+    }
+    function PopulateDesignationType() {
+        $("#DesignationType").get(0).options.length = 0;
+        $("#DesignationType").get(0).options[0] = new Option("Select", "-1");
+        $("#DesignationType").get(0).options[1] = new Option("Official", "0");
+        $("#DesignationType").get(0).options[2] = new Option("Functional", "1");
+
+    }
+    function PopulateApproverLevel(n) {
+        //var n = document.getElementById('NoOfApprovalLevel').value;
+        $("#ApproverLevel").get(0).options[0] = new Option("Select", "-1");;
+        for (var i = 1; i <= n; i++) {
+
+            $("#ApproverLevel").get(0).options[i] = new Option(i, i);
+
+        }
+    }
+    function SetApprovalLevelValue() {
+        var n = document.getElementById('NoOfApprovalLevel').value;
+        PopulateApproverLevel(n);
+    }
+    function PopUP() {
+        debugger
+        popUpFlag = 1;
+        var vURL = encodeURIComponent(server +"/CoreCommon/api/ApprovalModuleWiseMapping/GetAppModuleObjectMapping");
+
+        var vColHeaderName = 'Module Object Id, Module Name , Business Object Name';
+        var vTitle = 'Modulel PopUp';
+        var vColumn = 'moduleObjMapCode_PK,moduleName_VW,moduleObjName';
+
+        callModal("../Approval/GetData?pDynColumns=" + vColHeaderName + "&pTitle=" + vTitle + "&pURL=" + vURL + "&pColumns=" + vColumn);
+
+    }
+    function setApproverTypeName(n) {
+        if (n == 0)
+            return "Reporting Boss";
+        else if (n == 1)
+            return "Specific Employee";
+        else if (n == 2)
+            return "Designation";
+        else if (n == 3)
+            return "Own Reporting Boss"
+            
+            
+    }
+    function setDesignationTypeName(n) {
+        if (n == 1)
+            return "Official";
+        else if (n == 2)
+            return "Functional";
+        else
+            return "";
+    
+    }
+    function GetObjAppInfoMapLogicValue() {
+        
+        popUpFlag = 2;
+        //alert(vCalleeVar1);
+        var url = server +"/CoreCommon/api/ApprovalApproverSelection/GetObjAppInfoMapLogicValue?pModuleObjMapCode=" + vCalleeVar1;
+        var vURL = encodeURIComponent(url);
+
+        var vColHeaderName = 'Serial No, Approval Level Type , No. Of Approval Level';
+        var vTitle = 'Approval Level';
+       // var vColumn = 'ModuleObjMapCode_PK,moduleName_VW,moduleObjName';
+
+        callModal("../Approval/GetDataApproval?pDynColumns=" + vColHeaderName + "&pTitle=" + vTitle + "&pURL=" + vURL );
+    }
+    function GetEmployee() {
+        popUpFlag = 3;
+        var url = server + "/CoreCommon/api/Employee/GetEmployeeAll";
+        var vURL = encodeURIComponent(url);
+        var vColHeaderName = 'Employee ID, Name';
+        var vTitle = 'Employee List';
+        var vPKValue = 'employeeCode_PK';
+        var vColumn = 'employeeId,name'
+        callModal("../Product/GetData?pDynColumns=" + vColHeaderName + "&pTitle=" + vTitle + "&pURL=" + vURL + "&pColumns=" + vColumn + "&pPkCode=" + vPKValue);
+
+    }
+    function GetEmployeeByCode(vCalleeVar1) {
+        $.ajax({
+            url: server + "CoreCommon/api/Employee/GetEmployeeByID?pEmployeeId=" + vCalleeVar1 +"&pCompanyCode="+1,
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+                debugger
+                $("#ApproverName").val(data.objEmployee.employeeId);
+                $("#EmployeeCode").val(data.objEmployee.employeeCode_PK);
+                
+            },
+            error: function () {
+                alert("Failed to load Product Info");
+
+
+            }
+        });
+    }
+    function callModal(vURL, vDATA) {
+        var vModal = document.getElementById('ModalView');
+        var vSpan = document.getElementsByClassName("close")[0];
+
+        $.ajax({
+            type: "GET",
+            url: vURL,
+            data: vDATA,
+
+            dataType: "html",
+            success: function (data) {
+                $('#DivNew').html(data);
+
+                vModal.style.display = "block";
+
+            }
+
+        });
+        vSpan.onclick = function () {
+            vModal.style.display = "none";
+        }
+    }
+    function AssignValueCommonPopUPNewListUI() {
+        //alert(vCalleeVar1);
+        //alert(vCalleeVar2);
+        //alert(vCalleeVar3);
+        if (popUpFlag == 1) {
+            $("#MappingNo").val(vCalleeVar1);
+            $("#BusinessObjectName").val(vCalleeVar2);
+            $("#Module").val(vCalleeVar3);
+            $('#MappingNo').attr('disabled', 'disabled');
+            $('#BusinessObjectName').attr('disabled', 'disabled');
+            $('#Module').attr('disabled', 'disabled');
+            //document.getElementById("#MappingNo").disabled = 'true';
+            //document.getElementById("#BusinessObjectNamer").disabled = 'true;
+            //document.getElementById("#Module").disabled = true;
+        }
+        else if (popUpFlag == 2) {
+            
+            $("#ApprovalLevelType").val(vCalleeVar2);
+            $("#NoOfApprovalLevel").val(vCalleeVar1);
+            $("#SerialNo").val(vCalleeVar3);
+            $('#ApprovalLevelType').attr('disabled', 'disabled');
+            $('#NoOfApprovalLevel').attr('disabled', 'disabled');
+            $('#SerialNo').attr('disabled', 'disabled');
+           
+            vAppLvDefinitionDetCode_FK = vCalleeVar4;
+            alert(vAppLvDefinitionDetCode_FK);
+            SetApprovalLevelValue(vCalleeVar1);
+            var u = server +"/CoreCommon/api/ApprovalApproverSelection/GetApproverSelectionInformations?pAppLvDefDetAppTypeCode_PK="
+            var vUrl = u + vAppLvDefinitionDetCode_FK;
+           // alert(vUrl);
+            $.ajax({
+                url: vUrl,
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            //data: JSON.stringify({
+            //    pAppLvDefDetAppTypeCode_PK: vCalleeVar4,
+
+            //}),
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+                success: function (data) {
+                    
+                    //alert(data.check);
+                    debugger
+                for (var i = 0; i < data.vlist.length; i++) {
+                    for (var j = 0; j < data.vlist[i].objAppLevelDetAppTypeApproverList_VW.length; j++) {
+                        loadFlag = 1;
+                        var index = i;
+                        var vApproverLevel = data.vlist[i].approverLevelNo;
+                        var pkDefDetAppType = data.vlist[i].appLvDefDetAppTypeCode_PK;
+                        var pkDefDetAppTypeApprover = data.vlist[i].objAppLevelDetAppTypeApproverList_VW[j].appLvDetAppTypeApprover_PK;
+                        //var vApproverType = setApproverTypeName(data.vlist[i].approverType);
+                        var vApproverType = data.vlist[i].approverType;
+                        var vEmployeeCode = data.vlist[i].objAppLevelDetAppTypeApproverList_VW[j].ApproverEmpCode;
+                        var vApproverName = data.vlist[i].objAppLevelDetAppTypeApproverList_VW[j].approverEmpName_VW;
+                        var vDesignationType = setDesignationTypeName(data.vlist[i].objAppLevelDetAppTypeApproverList_VW[j].designationType);
+                        var vDesignation = data.vlist[i].objAppLevelDetAppTypeApproverList_VW[j].designation_VW;
+                        var vDesignationOf = data.vlist[i].objAppLevelDetAppTypeApproverList_VW[j].approverOfDept_Name_VW;
+                        var vDesignationFor = data.vlist[i].objAppLevelDetAppTypeApproverList_VW[j].approverForDept_Name_VW;
+                        var vCheck = data.vlist[i].objAppLevelDetAppTypeApproverList_VW[j].activeYN;
+                        AddApproverToList(pkDefDetAppType, pkDefDetAppTypeApprover, index, vApproverLevel, vApproverType, vApproverName, vEmployeeCode, vDesignationType, vDesignation, vDesignationOf, vDesignationFor, vCheck);
+                    }
+                    
+                }
+                
+
+            },
+            error: function () {
+                alert("Failed to load");
+
+
+            }
+        });
+        }
+        else if (popUpFlag == 3) {
+
+            $("#EmployeeCode").val(vCalleeVar1);
+            $("#ApproverName").val(vCalleeVar2);
+        }
+        
+        var vSpan = document.getElementsByClassName("close")[0];
+        vSpan.onclick();
+
+    }
+</script>
+<style>
+    .btn-add {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 6px 30px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+    .btn-add1 {
+        background-color: white;
+        color: black;
+        border: 2px solid #008CBA;
+    }
+
+    .btn-add:hover {
+        background-color: #008CBA; /* Blue */
+        color: white;
+    }
+
+    .button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 10px 50px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border-radius: 4px;
+        font-size: 12px;
+        margin: 4px 2px;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
+
+    .button2 {
+        background-color: #008CBA;
+    }
+    /* Blue */
+    .button3 {
+        background-color: #f44336;
+    }
+    /* Red */
+    .button:hover {
+        background-color: #555555;
+        color: white;
+    }
+
+    .bordered {
+        width: 1150px;
+        height: 100px;
+        padding: 20px;
+        border: 1px solid grey;
+        border-radius: 8px;
+    }
+
+    .border2 {
+        height: 150px;
+    }
+</style>
+
+<div id="ModalView" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+
+            <span class="close">×</span>
+        </div>
+        <div class="modal-body">
+            <div class="modal-body">
+                <div id="DivNew">
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="container">
+
+    <div class="row">
+        <h4>Mapping Information</h4>
+    </div>
+    <div class="row">
+        &nbsp
+    </div>
+    <div class="row bordered">
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Mapping No</label>
+                    @Html.TextBox("MappingNo", null, new { @class = "form-control", PlaceHolder = "Double Click", ondblclick = "PopUP()" })
+                </div>
+            </div>
+            @*<div class="form-group">
+                    <div class="col-md-10">
+                        <label class="col-md-8 control-label">Module</label>
+                        @Html.TextBox("Module", null, new { @class = "form-control" })
+                    </div>
+                </div>*@
+
+        </div>
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <div class="col-md-10">
+
+                    <label class="col-md-10 control-label">Business Object Name</label>
+                    @Html.TextBox("BusinessObjectName", null, new { @class = "form-control" })
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Module Name</label>
+                    @Html.TextBox("Module", null, new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row ">
+        <h4>Approval Level Selection</h4>
+    </div>
+    <div class="row">
+        &nbsp
+    </div>
+    <div class="row bordered">
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Serial No</label>
+                    @Html.TextBox("SerialNo", null, new { @class = "form-control", PlaceHolder = "DoubleClick", ondblclick = "GetObjAppInfoMapLogicValue()" })
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <div class="col-md-10">
+
+                    <label class="col-md-10 control-label">Approval Level Type</label>
+                    @Html.TextBox("ApprovalLevelType", null, new { @class = "form-control" })
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-10 control-label">No. Of Approval Level</label>
+                    @Html.TextBox("NoOfApprovalLevel", null, new { @class = "form-control", onchange = "SetApprovalLevelValue()" })
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <h4>Approver Information</h4>
+    </div>
+    <div class="row">
+        &nbsp
+    </div>
+    <div class="row bordered border2">
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Approver Level</label>
+                    @Html.DropDownList("ApproverLevel", new SelectList("", "Value", "Text"), new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    &nbsp
+                </div>
+            </div>
+            <div id="buttonAdd">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <button type="button" class="btn-add btn-add1 " onclick="AddApprover()">Add</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <div class="col-md-10">
+
+                    <label class="col-md-10 control-label">Approver Type</label>
+                    @Html.DropDownList("ApproverType", new SelectList("", "Value", "Text"), new { @class = "form-control", onchange = "ApproverTypeOnChange();" })
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="EmployeeInfo">
+        <div class="row">
+            <h4>Employee Information</h4>
+        </div>
+        <div class="row">
+            &nbsp
+        </div>
+        <div class="row bordered border2">
+            <div class="row">
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <label class="col-md-8 control-label">Approver Name</label>
+                            @Html.TextBox("ApproverName", null, new { @class = "form-control", PlaceHolder = "DoubleClick", ondblclick = "GetEmployee()" })
+                            @Html.Hidden("EmployeeCode", null)
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                &nbsp
+            </div>
+            <div class="row ">
+
+                <div id="buttonAdd2">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <button type="button" class="btn-add btn-add1 " onclick="AddApprover()">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="DesignationInfo">
+        <div class="row">
+            <h4>Designation Information</h4>
+        </div>
+        <div class="row">
+            &nbsp
+        </div>
+        <div class="row bordered border2">
+            <div class="row ">
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <label class="col-md-8 control-label">Designation Type</label>
+                            @Html.DropDownList("DesignationType", new SelectList("", "Value", "Text"), new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row ">
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <label class="col-md-10 control-label">Designation</label>
+                            @Html.TextBox("Designation", null, new { @class = "form-control", PlaceHolder = "Press F8" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <label class="col-md-8 control-label">Of</label>
+                            @Html.DropDownList("DesignationOf", new SelectList("", "Value", "Text"), new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <label class="col-md-8 control-label">For</label>
+                            @Html.DropDownList("DesignationFor", new SelectList("", "Value", "Text"), new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row ">
+                <div id="buttonAdd3">
+                    @*<div class="col-md-4">*@
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <button type="button" class="btn-add btn-add1 " onclick="AddApprover()">Add</button>
+                            </div>
+                        </div>
+                    @*</div>*@
+                </div>
+        </div>
+    </div>
+    </div>
+    <div id="approverList">
+        <div class="row">
+            <h4>Approver List</h4>
+        </div>
+        <div class="row">
+            &nbsp
+        </div>
+        <table class="table table-striped ListTable1">
+            <thead>
+                <tr class="HeaderRow">
+                    <th class="HeaderCell">Level No</th>
+                    <th class="HeaderCell">Approver Type</th>
+                    <th class="HeaderCell">Approver Name</th>
+                    <th class="HeaderCell">Designation Type</th>
+                    <th class="HeaderCell">Designation</th>
+                    <th class="HeaderCell">Of DEPT</th>
+                    <th class="HeaderCell">For DEPT</th>
+                    <th class="HeaderCell">	Active</th>
+                </tr>
+            </thead>
+            <tbody id="tblApproverList"></tbody>
+        </table>
+    </div>
+    <div class="row">
+        &nbsp
+    </div>
+    <div class="row">
+        &nbsp
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <button type="button" class="button" onclick="Save()">Save</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <div class="col-md-6">
+
+                    <button type="button" class="button button2" onclick="Delete()">Delete</button>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <button type="button" class="button button3" onclick="New()">New</button>
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+<div id="ModalView" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+
+            <span class="close">×</span>
+        </div>
+        <div class="modal-body">
+            <div class="modal-body">
+                <div id="DivNew">
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+

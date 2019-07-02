@@ -1,0 +1,509 @@
+﻿@{
+    ViewData["Title"] = "CreateEmployee";
+}
+
+
+<script type="text/javascript">
+    
+    var server = "http://192.168.20.152";
+    var requestUrl;
+
+    var employeeCode;
+    var referToCode;
+    var objEmployeeDetails = {};
+    var ReportToBtn = 0;
+
+    var pUserCode = "";
+    var pCompanyCode = 1;
+    
+    window.onload = function () {
+        CheckUserIsLogedIn();
+        
+
+    }
+
+    function CheckUserIsLogedIn() {
+        debugger
+        GetCookie();
+
+        if (pUserCode != "NotLogedIn") {
+            getCurrentDate();
+            DepartmentDropDown();
+            DesignationDropDown();
+        //getAllEmployee();
+        //rfpIdDropDownList();
+        }
+        else {
+            requestUrl = server + "/centerpoint/employee/createemployee";
+            Cookies.set('RequestURL', requestUrl, { expires: 1 });
+            window.location.href = "../Login/LoginPageUI";
+        }
+    }
+    function GetCookie() {
+        debugger
+        pUserCode = Cookies.get('UserID');
+
+        if (pUserCode == null || pUserCode == "") {
+            // do cookie doesn't exist stuff;
+            pUserCode = "NotLogedIn";
+        }
+        else {
+            // do cookie exists stuff
+            pUserCode = Cookies.get('UserID');
+        }
+    }
+
+    
+
+    function getCurrentDate() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+        //console.log(today);
+        document.getElementById("employeeDateOfBirth").value = today;
+        document.getElementById("jobStatusChangedDate").value = today;
+    }
+
+
+
+    function PopUpBtnClick() {
+        debugger
+
+        var vURL = encodeURIComponent(server + "/CoreCommon/api/Employee/GetEmployeeAll");
+
+        var vColHeaderName = 'Name,  Id, Designation';
+        var vTitle = 'Employee List';
+        var vColumn = 'name,employeeCode_PK,designation_VW';
+        var vListName = 'objEmployeeList';
+        callModal("../Employee/GetData?pDynColumns=" + vColHeaderName + "&pTitle=" + vTitle + "&pURL=" + vURL + "&pColumns=" + vColumn + "&pListName=" + vListName);
+    }
+
+
+
+    function callModal(vURL, vDATA) {
+        var vModal = document.getElementById('ModalView');
+        var vSpan = document.getElementsByClassName("close")[0];
+
+        $.ajax({
+            type: "GET",
+            url: vURL,
+            data: vDATA,
+
+            dataType: "html",
+            success: function (data) {
+                $('#DivNew').html(data);
+
+                vModal.style.display = "block";
+
+            }
+
+        });
+        vSpan.onclick = function () {
+            vModal.style.display = "none";
+        }
+    }
+
+    function AssignValueCommonPopUPNewListUI() {
+        debugger
+        //document.getElementById("IDTxtField").value = vCalleeVar2;
+        //document.getElementById("quotationIdTxtField").value = vCalleeVar2;
+        //document.getElementById("priceLockTxtField").value = vCalleeVar3;
+        //rfpProcessCode = vCalleeVar3;
+
+
+        if (ReportToBtn > 0) {
+            referToCode = vCalleeVar3;
+            alert(referToCode);
+            document.getElementById("reportToTxtField").value = vCalleeVar2;
+            ReportToBtn = 0;
+        }
+        else {
+            employeeCode = vCalleeVar3;
+            document.getElementById("IDTxtField").value = vCalleeVar2;
+            GetEmployeeByCode(employeeCode);
+            
+        }
+        var vSpan = document.getElementsByClassName("close")[0];
+        vSpan.onclick();
+        
+    }
+
+    function DepartmentDropDown() {
+        debugger
+        $.ajax({
+            url: server + "/CoreCommon/api/Common/GetCodeFile?FileTypeCode=10&LevelCode=189&COMPANY_CODE=" + pCompanyCode,
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+
+                for (var i = 0; i < data.listGeneralCodeFile.length; i++) {
+
+                    $("#departmentDropDownList").get(0).options[i] = new Option(data.listGeneralCodeFile[i].fileName, data.listGeneralCodeFile[i].fileCode_PK, i);
+
+                }
+
+            },
+            error: function () {
+                alert("Failed to load Department");
+
+            }
+        });
+
+    }
+
+    function DesignationDropDown() {
+        debugger
+        $.ajax({
+            url: server + "/CoreCommon/api/Common/GetCodeFile?FileTypeCode=8&LevelCode=7&COMPANY_CODE=" + pCompanyCode,
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+
+                for (var i = 0; i < data.listGeneralCodeFile.length; i++) {
+
+                    $("#designationDropDownList").get(0).options[i] = new Option(data.listGeneralCodeFile[i].fileName, data.listGeneralCodeFile[i].fileCode_PK, i);
+
+                }
+
+            },
+            error: function () {
+                alert("Failed to load Designation");
+
+            }
+        });
+
+    }
+
+    function GetEmployeeByCode(employeeCode) {
+        debugger
+
+        var rData = employeeCode;
+
+        $.ajax({
+
+            url: server + "/CoreCommon/api/Employee/GetEmployeeByID?pEmployeeId=" + rData + "&pCompanyCode=" + pCompanyCode,
+            type: "Get",
+            datatype: "json",
+            contentType: "application/json",
+            data: { get_param: 'value' },
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+
+                debugger
+                alert("Success");
+                objEmployeeDetails = data.objEmployee;
+                
+
+                AssignData(objEmployeeDetails);
+
+            },
+            error: function () {
+                alert("Failed to load Employee Data");
+
+            }
+        });
+    }
+
+    function ReportToBtnClick() {
+        ReportToBtn = 1;
+        PopUpBtnClick();
+    }
+
+    function AssignData(objEmployeeDetails) {
+        
+        document.getElementById("employeeFullNameTxtField").value = objEmployeeDetails.name;
+
+        //set the HTML coded drop down selected value
+        $("#sexDropDownList").get(0).selectedIndex = objEmployeeDetails.sex;
+
+        document.getElementById("employeeFathersNameTxtField").value = objEmployeeDetails.fatherName;
+        document.getElementById("employeeMothersNameTxtField").value = objEmployeeDetails.motherName;
+        document.getElementById("employeeDateOfBirth").value = objEmployeeDetails.dateOfBirth;
+        document.getElementById("employeeMobileNumberTxtField").value = objEmployeeDetails.contactNumber;
+        document.getElementById("employeeEmailTxtField").value = "";
+        document.getElementById("employeePresentAddressTxtField").value = objEmployeeDetails.presentAddress;
+
+        //set the HTML coded drop down selected value
+        $("#jobStatusDropDownList").get(0).selectedIndex = objEmployeeDetails.jobStatus;
+
+        document.getElementById("jobStatusChangedDate").value = objEmployeeDetails.jobStatusChangedDate;
+        document.getElementById("reportToTxtField").value = objEmployeeDetails.reportToName_VW;
+
+        //set the C# coded drop down selected value
+        $("#departmentDropDownList").val(objEmployeeDetails.departmentCode_FK).change();
+        $("#designationDropDownList").val(objEmployeeDetails.designationCode_FK).change();
+        
+
+    }
+    
+    function SubmitBtnClick() {
+
+        var jObjMain = {
+            "EmployeeCode_PK": "",
+            "EmployeeId": "",
+            "DepartmentCode_FK": "",
+            "DesignationCode_FK": "",
+            "Name": "",
+            "Sex": "",
+            "FatherName": "",
+            "MotherName": "",
+            "ReportToCode": "",
+            "PresentAddress": "",
+            "DateOfBirth": "",
+            "JobStatus": "",
+            "ContactNumber": "",
+            "JobStatusChangedDate": "",
+            "CompanyCode_FK": "",
+            "ActionType": "",
+            "UserCode": ""
+        }
+
+        if (objEmployeeDetails != "") {
+            jObjMain.EmployeeCode_PK = employeeCode;
+            //jObjMain.EmployeeId
+        }
+        else {
+            jObjMain.EmployeeCode_PK = "";
+            //jObjMain.EmployeeId
+        }
+
+        jObjMain.DepartmentCode_FK = parseInt($("#departmentDropDownList option:selected").val(), 10);
+        jObjMain.DesignationCode_FK = parseInt($("#designationDropDownList option:selected").val(), 10);
+        jObjMain.Name = $("#employeeFullNameTxtField").val();
+        jObjMain.Sex = parseInt($("#sexDropDownList option:selected").val(), 10);
+        jObjMain.FatherName = $("#employeeFathersNameTxtField").val();
+        jObjMain.MotherName = $("#employeeMothersNameTxtField").val();
+        jObjMain.ReportToCode = referToCode;
+        jObjMain.PresentAddress = $("#employeePresentAddressTxtField").val();
+        jObjMain.DateOfBirth = $("#employeeDateOfBirth").val();
+        jObjMain.JobStatus = parseInt($("#jobStatusDropDownList option:selected").val(), 10);
+        jObjMain.ContactNumber = $("#employeeMobileNumberTxtField").val();
+        jObjMain.JobStatusChangedDate = $("#jobStatusChangedDate").val();
+        jObjMain.CompanyCode_FK = pCompanyCode;
+        jObjMain.ActionType = "INSERT";
+        jObjMain.UserCode = "9C6CA730-34AB-40B2-A0DC-17CD77330B9E";
+
+        debugger
+        var datas = JSON.stringify(jObjMain);
+
+        $.ajax(
+            {
+
+                url: server + "/CoreCommon/api/Employee/CreateEmployee",
+                dataType: "json",
+                processData: false,
+                contentType: 'application/json',
+                type: "POST",
+                data: datas,
+                success: function (data) {
+                    document.location.reload();
+                    alert("Save Succesfull!");
+                },
+                error: function () {
+                    alert("There was error saving data!");
+                }
+            }
+        );
+    }
+
+    function NewBtnClick() {
+        document.location.reload();
+    }
+
+    
+
+
+</script>
+
+
+<div class="body-content">
+    @*<div class="title">
+        Create Employee
+    </div>*@
+
+    <div class="box">
+        <form>
+            <fieldset>
+                <legend style="color:brown">Personal Details</legend>
+
+                <div class="row">
+                    <div class="col-10">
+                        <label for="fname">ID:<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-23">
+                        <input type="text" id="IDTxtField" ondblclick="PopUpBtnClick()" readonly="readonly" placeholder="Tap twice" />
+
+                    </div>
+                    <div class="col-10">
+                        <label for="fname">Full Name:<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-23">
+                        <input type="text" id="employeeFullNameTxtField" />
+                    </div>
+                    <div class="col-10">
+                        <label for="fname">Sex:</label>
+                    </div>
+                    <div class="col-24">
+                        <select id="sexDropDownList" style="margin-top:6px">
+                            <option value="1">Male</option>
+                            <option value="2">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-10">
+                        <label for="fname">Father's Name:</label>
+                    </div>
+                    <div class="col-23">
+                        <input type="text" id="employeeFathersNameTxtField" />
+                    </div>
+                    <div class="col-10">
+                        <label for="fname">Mother's Name:</label>
+                    </div>
+                    <div class="col-23">
+                        <input type="text" id="employeeMothersNameTxtField" />
+                    </div>
+                    <div class="col-10">
+                        <label for="fname">Date of Birth:<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-24">
+                        <input type="date" id="employeeDateOfBirth" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-10">
+                        <label for="fname">Mobile No:</label>
+                    </div>
+                    <div class="col-23">
+                        <input type="text" id="employeeMobileNumberTxtField" />
+                    </div>
+                    <div class="col-10">
+                        <label for="fname">Email:</label>
+                    </div>
+                    <div class="col-23">
+                        <input type="text" id="employeeEmailTxtField" />
+                    </div>
+                    <div class="col-10">
+                        <label for="fname">Present Address:</label>
+                    </div>
+                    <div class="col-24">
+                        <textarea rows="4" cols="20" id="employeePresentAddressTxtField"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+            <br />
+        </form>
+    </div>
+
+    <div class="box">
+        <form>
+            <fieldset>
+                <legend style="color:brown">Organizational Details</legend>
+
+                <div class="row">
+                    <div class="col-10">
+                        <label for="fname">Job status:<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-23">
+                        <select id="jobStatusDropDownList" style="margin-top:6px">
+                            <option value="-1">Select..</option>
+                            <option value="0">Non-Confirm</option>
+                            <option value="1">Confirm</option>
+                            <option value="2">Suspend</option>
+                            <option value="3">LPR</option>
+                            <option value="4">Retirment</option>
+                            <option value="5">Resigned</option>
+                        </select>
+                    </div>
+                    <div class="col-10">
+                        <label for="fname">Job Status Changed Date:<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-23">
+                        <input type="date" id="jobStatusChangedDate" />
+                    </div>
+                    <div class="col-10">
+                        <label for="fname">Report To:<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-23">
+                        <input type="text" id="reportToTxtField" ondblclick="ReportToBtnClick()" readonly="readonly" placeholder="Tap twice" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-10">
+                        <label for="fname">Department:<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-23">
+                        @Html.DropDownList("departmentDropDownList", new SelectList("", "Value", "Text"), new { @class = "form-control", style = "margin-top:6px" })
+                    </div>
+                    <div class="col-10">
+                        <label for="fname">Designation:<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-23">
+                        @Html.DropDownList("designationDropDownList", new SelectList("", "Value", "Text"), new { @class = "form-control", style = "margin-top:6px" })
+                    </div>
+                </div>
+            </fieldset>
+            <br />
+        </form>
+    </div>
+
+
+    <div class="submitBtn">
+        <button type="button" onclick="NewBtnClick()" style="width:100px">New</button>
+        <button type="button" onclick="SubmitBtnClick()" style="width:100px">Submit</button>
+    </div>
+
+</div>
+
+<div id="ModalView" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+
+            <span class="close">×</span>
+        </div>
+        <div class="modal-body">
+            <div class="modal-body">
+                <div id="DivNew">
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

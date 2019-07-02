@@ -1,0 +1,238 @@
+﻿<script>
+    var server = "http://192.168.20.29/";
+
+   
+    function LoadAllQuotation(data) {
+       debugger
+        var vNewRow;
+        var vApproved;
+
+
+        var vSLNo = 0;
+        $('.ListTable').find('tr').not('.HeaderRow').remove();
+
+
+        for (var i = 0; i < data.vList.length; i++) {
+            vSLNo = i + 1;
+            if (data.vList[i].ApprovalAction == 0 && data.vList[i].IsApproved==0) {
+                vApproved = 'Pending';
+            }
+            else if (data.vList[i].ApprovalAction == 1 && data.vList[i].IsApproved == 1) {
+                vApproved = 'Approved';
+            }
+            else if (data.vList[i].ApprovalAction == 3 && data.vList[i].IsApproved == 0) {
+                vApproved = 'Declined';
+            }
+            else if (data.vList[i].ApprovalAction == 2 && data.vList[i].IsApproved == 0) {
+                vApproved = 'Rejected';
+            }
+            vNewRow = '<tr>' +
+                '<td class="DataCell" >' + vSLNo + '</td>' +
+                '<td class="DataCell" >' + data.vList[i].QuotationNo + '</td>' +
+                '<td class="DataCell" >' + data.vList[i].SupplierName_VW + '</td>' +
+                '<td class="DataCell" >' + data.vList[i].TotatlQuotationScore + '</td>' +
+                '<td class="DataCell" >' + data.vList[i].Remarks + '</td>' +
+                '<td class="DataCell" >' + vApproved + '</td>' +
+                '<input type="hidden" id="QuotationCode' + i + '" value="' + data.vList[i].QuotationCode_PK + '" />' +
+                '<input type="hidden" id="SupplierCode' + i + '" value="' + data.vList[i].SupplierCode + '" />' +
+                '<input type="hidden" id="RequisitionCode_VW' + i + '" value="' + data.vList[i].RequisitionCode_VW + '" />' +
+                '<td class="DataCell" align="center"><a tabindex="27" href="#"  onclick="javascript:return ShowDetails(' + '\'' +  data.vList[i].QuotationCode_PK + '\'' + ');">Details</a></td>' +
+                '<td class="DataCell" align="center"><a tabindex="27" href="#"  onclick="javascript:return GenerateWorkOrder(' + '\'' + data.vList[i].QuotationCode_PK + '\',\'' + data.vList[i].RequisitionCode_VW + '\',\'' + data.vList[i].SupplierCode + '\',\'' + data.vList[i].TotatlQuotationScore + '\'' + ');">Generate Work Order</a></td>' +
+                '</tr>';
+
+            $('.ListTable').find('tr:last').after(vNewRow);
+            if (i % 2 == 0) $('.ListTable').find('tr:last').addClass('DataRowOdd');
+            else $('.ListTable').find('tr:last').addClass('DataRowEven');
+        }
+
+
+    }
+    function PopUpforRFProcess() {
+
+        var vURL = encodeURIComponent(server + "/procurement/api/RFPProcessing/GetRFPProcessingList");
+
+        var vColHeaderName = 'RFProcess Id, Publish Date, Employee';
+        var vTitle = 'RFProcess PopUp';
+        var vColumn = 'RFProcessId,PublishDate,EmployeeName_VW';
+        var vPKValue = 'RFProcessCode_PK';
+
+        callModal("../Product/GetData?pDynColumns=" + vColHeaderName + "&pTitle=" + vTitle + "&pURL=" + vURL + "&pColumns=" + vColumn + "&pPkCode=" + vPKValue);
+
+    }
+    function AssignValueCommonPopUPNewListUI() {
+        if (vCalleeVar1 != null && vCalleeVar1 != undefined) {
+            $("#RFProcessId").val(vCalleeVar2);
+            $("#RFProcessCode_PK").val(vCalleeVar1);
+            GetQuotation(vCalleeVar1);
+
+        }
+        var vSpan = document.getElementsByClassName("close")[0];
+        vSpan.onclick();
+    }
+    function GetQuotation(pkCode) {
+        debugger
+        $.ajax({
+            url: server + "Procurement/api/Quotation/GetQuotationByRFP?pREFProcessCode=" + pkCode,
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+
+                LoadAllQuotation(data);
+            },
+            error: function () {
+                alert("Failed to load Quotation List");
+
+
+            }
+        });
+    }
+    function ShowDetails() {
+        window.location.href = "../Quotation/QuotationRequisition?RFProcessCode="+$("#RFProcessCode_PK").val();
+       
+    }
+    function GenerateWorkOrder(QuotationCode, RequisitionCode, SupplierCode, TotatlQuotationScore) {
+       
+            var jObjMain = {
+                "PurchaseOrderNo": "",
+                "QuotationCode": "",
+                "SupplierCode": "",
+                "RequisitionCode": "",
+                "TotatlQuotationScore": 0,
+                "PurchaseOrderCode_PK": "",
+                "CompanyCode_FK": "",
+                "ActionType": "",
+                "UserCode": "",
+                "ActionDate": "",
+               
+            };
+        jObjMain.PurchaseOrderNo ="";
+        jObjMain.QuotationCode = QuotationCode;
+        jObjMain.SupplierCode = SupplierCode;
+        jObjMain.RequisitionCode = RequisitionCode;
+        jObjMain.TotatlQuotationScore = TotatlQuotationScore;
+        jObjMain.PurchaseOrderCode_PK ="";
+        jObjMain.CompanyCode_FK = 1;
+        jObjMain.ActionType = "INSERT";
+        jObjMain.UserCode = "9C6CA730-34AB-40B2-A0DC-17CD77330B9E";
+        jObjMain.ActionDate ="2019-03-25 14:56:44.453";
+           
+           
+            var datas = JSON.stringify(jObjMain);
+
+            $.ajax(
+                {
+                    url: server + "/Procurement/api/PurchaseOrder/CreatePurchaseOrder",
+                    dataType: "json",
+                    processData: false,
+                    contentType: 'application/json',
+                    type: "POST",
+                    data: datas,
+                    success: function (data) {
+
+                        alert("Work order generated Succesfully!");
+                    },
+                    error: function () {
+                        alert("There was error saving data!");
+                    }
+                }
+            );
+       
+    }
+    function CompareScore() {
+        
+        $.ajax({
+            url: server + "Procurement/api/Quotation/CompareQuotation?pREFProcessCode=" + $("#RFProcessCode_PK").val(),
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+                if (data.isSuccess==1)
+                    GetQuotation($("#RFProcessCode_PK").val());
+            },
+            error: function () {
+                alert("Failed to load Quotation List");
+
+
+            }
+        });
+
+    }
+</script>
+
+<div class="container" style="margin-top:85px">
+    <fieldset>
+        <legend>Product</legend>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-5">
+                        <label class="col-md-15 control-label">RFProcess Id</label>
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.TextBox("RFProcessId", null, new { @class = "form-control", ondblclick = "PopUpforRFProcess()", PlaceHolder = "Double click" })
+                        @Html.Hidden("RFProcessCode_PK", null)
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </fieldset>
+    <div class="row">
+
+        <table class="table table-striped ListTable">
+            <thead>
+                <tr class="HeaderRow">
+                    <th class="HeaderCell">SL No</th>
+                    <th class="HeaderCell">Quotation No</th>
+                    <th class="HeaderCell">Supplier</th>
+                    <th class="HeaderCell">Score</th>
+                    <th class="HeaderCell">Reviewer Comments</th>
+                    <th class="HeaderCell">Approve Status</th>
+                    <th class="HeaderCell">Details</th>
+                    <th class="HeaderCell"></th>
+                </tr>
+            </thead>
+            <tbody id="tblDocuments"></tbody>
+        </table>
+    </div>
+    <div class="row">
+        <button type="button" id="addBtn" class="btn-primary" onclick="CompareScore()" style="width:100px">Compare</button>
+
+    </div>
+</div>
+
+    <div id="ModalView" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <span class="close">×</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div id="DivNew">
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>

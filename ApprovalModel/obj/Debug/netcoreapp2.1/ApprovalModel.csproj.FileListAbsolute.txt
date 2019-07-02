@@ -1,0 +1,12 @@
+E:\CenterPoint\CenterPointPortal\ApprovalModel\bin\Debug\netcoreapp2.1\ApprovalModel.deps.json
+E:\CenterPoint\CenterPointPortal\ApprovalModel\bin\Debug\netcoreapp2.1\ApprovalModel.dll
+E:\CenterPoint\CenterPointPortal\ApprovalModel\bin\Debug\netcoreapp2.1\ApprovalModel.pdb
+E:\CenterPoint\CenterPointPortal\ApprovalModel\bin\Debug\netcoreapp2.1\CommonModel.dll
+E:\CenterPoint\CenterPointPortal\ApprovalModel\bin\Debug\netcoreapp2.1\CommonModel.pdb
+E:\CenterPoint\CenterPointPortal\ApprovalModel\obj\Debug\netcoreapp2.1\ApprovalModel.csproj.CoreCompileInputs.cache
+E:\CenterPoint\CenterPointPortal\ApprovalModel\obj\Debug\netcoreapp2.1\ApprovalModel.AssemblyInfoInputs.cache
+E:\CenterPoint\CenterPointPortal\ApprovalModel\obj\Debug\netcoreapp2.1\ApprovalModel.AssemblyInfo.cs
+E:\CenterPoint\CenterPointPortal\ApprovalModel\obj\Debug\netcoreapp2.1\ApprovalModel.csproj.CopyComplete
+E:\CenterPoint\CenterPointPortal\ApprovalModel\obj\Debug\netcoreapp2.1\ApprovalModel.dll
+E:\CenterPoint\CenterPointPortal\ApprovalModel\obj\Debug\netcoreapp2.1\ApprovalModel.pdb
+E:\CenterPoint\CenterPointPortal\ApprovalModel\obj\Debug\netcoreapp2.1\ApprovalModel.csprojAssemblyReference.cache

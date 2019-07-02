@@ -1,0 +1,16 @@
+E:\CenterPoint\CenterPointPortal\PMSInterface\bin\Debug\netcoreapp2.1\PMSInterface.deps.json
+E:\CenterPoint\CenterPointPortal\PMSInterface\bin\Debug\netcoreapp2.1\PMSInterface.dll
+E:\CenterPoint\CenterPointPortal\PMSInterface\bin\Debug\netcoreapp2.1\PMSInterface.pdb
+E:\CenterPoint\CenterPointPortal\PMSInterface\bin\Debug\netcoreapp2.1\CommonModel.dll
+E:\CenterPoint\CenterPointPortal\PMSInterface\bin\Debug\netcoreapp2.1\PMSModel.dll
+E:\CenterPoint\CenterPointPortal\PMSInterface\bin\Debug\netcoreapp2.1\PMSModel.pdb
+E:\CenterPoint\CenterPointPortal\PMSInterface\bin\Debug\netcoreapp2.1\CommonModel.pdb
+E:\CenterPoint\CenterPointPortal\PMSInterface\obj\Debug\netcoreapp2.1\PMSInterface.csprojAssemblyReference.cache
+E:\CenterPoint\CenterPointPortal\PMSInterface\obj\Debug\netcoreapp2.1\PMSInterface.csproj.CoreCompileInputs.cache
+E:\CenterPoint\CenterPointPortal\PMSInterface\obj\Debug\netcoreapp2.1\PMSInterface.AssemblyInfoInputs.cache
+E:\CenterPoint\CenterPointPortal\PMSInterface\obj\Debug\netcoreapp2.1\PMSInterface.AssemblyInfo.cs
+E:\CenterPoint\CenterPointPortal\PMSInterface\obj\Debug\netcoreapp2.1\PMSInterface.csproj.CopyComplete
+E:\CenterPoint\CenterPointPortal\PMSInterface\obj\Debug\netcoreapp2.1\PMSInterface.dll
+E:\CenterPoint\CenterPointPortal\PMSInterface\obj\Debug\netcoreapp2.1\PMSInterface.pdb
+E:\CenterPoint\CenterPointPortal\PMSInterface\bin\Debug\netcoreapp2.1\System.Data.SqlClient.dll
+E:\CenterPoint\CenterPointPortal\PMSInterface\bin\Debug\netcoreapp2.1\System.Data.SqlClient.xml

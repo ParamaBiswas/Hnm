@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewData["Title"] = "LogInPage";
+}
+<script>
+    
+    function LogInTo() {
+        var status = @ViewBag.emailStatus;
+        alert(@ViewBag.emailStatus);
+        alert(status);
+        //if (status == "0") {
+        //    alert('your mail is not verified');
+        //    return;
+        //}
+       // alert("hello...In Log In");
+       // HttpContextAccessor.HttpContext.Request.Cookies["110"];
+        //var date = new Date();
+        //var minutes = 30;
+        //date.setTime(date.getTime() + (minutes * 60 * 1000));
+        //alert(date);
+        var vName = document.getElementById('UserName').value;
+        var vPass = document.getElementById('Password').value;
+        //Cookies.set('key', 'value', { expires: 7 }); 
+        //Cookies.set('key2', 'value2', { expires: 7 }); 
+        //alert(JSON.stringify(Cookies.get()));
+       // Cookies.remove('key');
+        //alert('after removing');
+        alert(JSON.stringify(Cookies.get()));
+        //alert(Cookies.get('key'));
+        $.ajax({
+            type: "POST",
+            url: "http://192.168.20.29/CoreSecurity/api/Authentication/LogIn",
+            //url: "http://192.168.2.8/CoreSecurity/api/values",
+            contentType: 'application/json',
+            data: JSON.stringify({
+                UserName: vName,
+                Password: vPass,
+                EmailStatus: status
+            }),
+
+            crossDomain: "true",
+            dataType: "json",
+            success: function (data) {
+                alert('ok :)');
+                alert(data.token);
+                Cookies.set(data.token, data.token, { expires: 1 });
+                alert(JSON.stringify(Cookies.get(data.token)));
+                var auth = 'bearer ' + Cookies.get(data.token);
+                alert(auth);
+                $.ajax({
+                    type: "Get",
+                    url: "http://192.168.20.29/CoreSecurity/api/values",
+                    headers: {
+                        'contentType': 'application/json',
+                        'Authorization': auth
+
+                         },
+                    crossDomain: "true",
+                    dataType: "json",
+                    success: function (data) {
+                        alert('ok too :)');
+                        alert(data);
+                    }
+                });
+            }
+        });
+    }
+    
+</script>
+
+<div class="container">
+    <div class="row my-4 my-lg-5">
+        <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-center">
+            <img src="~/assets/custom/images/hm.png" alt="signin" class="img-fluid">
+            <p class="font-20 semi-font fables-main-text-color mt-4 mb-4 mb-lg-5">Sign In </p>
+            <form>
+                <div class="form-group">
+                    <div class="input-icon">
+                        <span class="fables-iconemail fables-input-icon mt-2 font-13"></span>
+                        <input type="email" id="UserName" class="form-control rounded-0 py-3 pl-5 font-13 sign-register-input" placeholder="Email">
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="input-icon">
+                        <span class="fables-iconpassword fables-input-icon font-19 mt-1"></span>
+                        <input type="password" id="Password" class="form-control rounded-0 py-3 pl-5 font-13 sign-register-input" placeholder="Password">
+                    </div>
+
+                </div>
+                <button type="button" onclick="LogInTo();" class="btn btn-block rounded-0 white-color fables-main-hover-background-color fables-second-background-color font-16 semi-font py-3">Sign In</button>
+                    <p class="fables-forth-text-color">Dont have an account ?  <a href="~/LogIn/RegisterUI" class="font-16 semi-font fables-second-text-color underline fables-main-hover-color ml-2">Register</a></p>
+                @*<button type="button" onclick="LogInTo();" class="btn btn-block rounded-0 white-color fables-main-hover-background-color fables-second-background-color font-16 semi-font py-3">Sign in</button>*@
+
+            </form>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,15 @@
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\bin\Debug\netcoreapp2.1\Security.deps.json
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\bin\Debug\netcoreapp2.1\Security.runtimeconfig.json
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\bin\Debug\netcoreapp2.1\Security.runtimeconfig.dev.json
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\bin\Debug\netcoreapp2.1\Security.dll
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\bin\Debug\netcoreapp2.1\Security.pdb
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\obj\Debug\netcoreapp2.1\Security.csprojAssemblyReference.cache
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\obj\Debug\netcoreapp2.1\Security.csproj.CoreCompileInputs.cache
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\obj\Debug\netcoreapp2.1\Security.RazorAssemblyInfo.cache
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\obj\Debug\netcoreapp2.1\Security.RazorAssemblyInfo.cs
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\obj\Debug\netcoreapp2.1\Security.AssemblyInfoInputs.cache
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\obj\Debug\netcoreapp2.1\Security.AssemblyInfo.cs
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\obj\Debug\netcoreapp2.1\Security.RazorTargetAssemblyInfo.cache
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\obj\Debug\netcoreapp2.1\Security.dll
+E:\CenterPoint\CenterPointPortal\CenterPointCoreSecurity\obj\Debug\netcoreapp2.1\Security.pdb

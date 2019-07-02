@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewData["Title"] = "ApprovalDashboard";
+}
+<head>
+    <style>
+        fieldset {
+            border: 1px solid #c0c0c0;
+            width: 400px;
+            margin: auto;
+            align-self:center;
+        }
+    </style>
+    <script type="text/javascript">
+        var pUserCode = "";
+        var pCompanyCode = 1;
+        window.onload = function () {
+            CheckUserIsLogedIn();
+            Preview();
+        }
+
+        function CheckUserIsLogedIn() {
+            debugger
+            GetCookie();
+
+            if (pUserCode == "NotLogedIn") {
+                window.location.href = "../Login/LoginPageUI";
+            }
+        }
+        function GetCookie() {
+            debugger
+            pUserCode = Cookies.get('UserID');
+
+            if (pUserCode == null || pUserCode == "") {
+                // do cookie doesn't exist stuff;
+                pUserCode = "NotLogedIn";
+            }
+            else {
+                // do cookie exists stuff
+                pUserCode = Cookies.get('UserID');
+            }
+        }
+        function Preview() {
+            alert(pUserCode)
+            debugger
+            $.ajax({
+                url: "http://192.168.20.83/CoreCommon/api/ApprovalDashboard/GetDashBoardData?pUserId=" + pUserCode,
+                type: "Get",
+                datatype: "JSON",
+                contentType: "application/json",
+                crossDomain: "true",
+                //headers: { 'Access-Control-Allow-Origin': '*' },
+                error: function () {
+                    alert(" An error occurred.");
+                },
+                success: function (data) {
+                    alert('OK');
+                    SetData(data);
+
+                },
+                error: function () {
+                    alert("Failed to load Dashboard");
+
+                }
+            });
+        }
+        function SetData(data) {
+            debugger
+            $('.ListTable').find('tr').not('.HeaderRow').remove();
+            var vNewRow;
+            var vCheckBox;
+          
+
+
+            for (var i = 0; i < data.vList.length; i++) {
+                vNewRow = '<tr>' + '<td class="DataCell" style="width: 120px;"font-weight: bold;font-size: 15px;color: #f39c12;""><a href="#" onclick="javascript:return EditFieldInformation(\'' + data.vList[i].moduleObjMapCode + '\');">' + data.vList[i].dashBoardCaption_VW +
+                    '<input type="hidden" id="moduleObjMapCode" value="' + data.vList[i].moduleObjMapCode +  '" />'  +'</td>' +
+                    '<td class="DataCell" style="width: 120px">' + data.vList[i].noOfObjectToApprove_VW + '</td>' +
+                    '</tr>';
+                $('.ListTable').find('tr:last').after(vNewRow);
+                if (i % 2 == 0) $('.ListTable').find('tr:last').addClass('DataRowOdd');
+                else $('.ListTable').find('tr:last').addClass('DataRowEven');
+
+            }
+            //var vNewRowLast = '<tr></tr>';
+            //$('.ListTable').find('tr:last').after(vNewRowLast);
+
+        }
+
+
+        
+    </script>
+</head>
+<div class="container">
+    <div style="overflow: auto">
+        @*<table class="ListTable" style="width:700px">
+            <tbody id="tblApprovalDashboard"></tbody>
+        </table>*@
+        <table>
+            <tr>
+                <td style="width: 30%">
+                    <fieldset>
+                        <legend>Objects Waiting For Me</legend>
+                        <table class="ListTable">
+                            <tr class="HeaderRow"></tr>
+                            <tr class="HeaderRow"></tr>
+                            <tr class="HeaderRow"></tr>
+                        </table>
+                    </fieldset>
+
+                <td>
+            </tr>
+        </table>
+      
+
+
+    </div>
+</div>
+

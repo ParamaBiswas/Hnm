@@ -1,0 +1,101 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.1",
+    "signature": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.1": {
+      "SupplierInterface/1.0.0": {
+        "dependencies": {
+          "SupplierModel": "1.0.0",
+          "System.Data.SqlClient": "4.4.0.0"
+        },
+        "runtime": {
+          "SupplierInterface.dll": {}
+        }
+      },
+      "CommonModel/1.0.0": {
+        "runtime": {
+          "CommonModel.dll": {}
+        }
+      },
+      "ConnectionGateway/1.0.0": {
+        "dependencies": {
+          "LSCrud": "1.0.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "2.1.1.0"
+        },
+        "runtime": {
+          "ConnectionGateway.dll": {}
+        }
+      },
+      "LSCrud/1.0.0": {
+        "runtime": {
+          "LSCrud.dll": {}
+        }
+      },
+      "SupplierModel/1.0.0": {
+        "dependencies": {
+          "CommonModel": "1.0.0",
+          "ConnectionGateway": "1.0.0"
+        },
+        "runtime": {
+          "SupplierModel.dll": {}
+        }
+      },
+      "System.Data.SqlClient/4.4.0.0": {
+        "runtime": {
+          "System.Data.SqlClient.dll": {
+            "assemblyVersion": "4.4.0.0",
+            "fileVersion": "4.6.26606.5"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.Abstractions.Reference/2.1.1.0": {
+        "runtime": {
+          "Microsoft.Extensions.Configuration.Abstractions.dll": {
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SupplierInterface/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CommonModel/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ConnectionGateway/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "LSCrud/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SupplierModel/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "System.Data.SqlClient/4.4.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Extensions.Configuration.Abstractions.Reference/2.1.1.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

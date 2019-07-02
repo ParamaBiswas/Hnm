@@ -1,0 +1,138 @@
+﻿@{
+    ViewBag.Title = "Log in";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+
+
+    <link rel="stylesheet" href="~/Content/style-login.css">
+
+}
+
+<script type="text/javascript" ></script>
+
+
+<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+<script src="~/Scripts/jquery.min.js"></script>
+
+<script src="~/Scripts/moment.js"></script>
+
+<script src="@Url.Content("~/js/cookie.js")"></script>
+
+<script type="text/javascript">
+    var server = "http://192.168.20.83";
+    //var RequestedURL = "http://192.168.20.83/Centerpoint";
+
+    function LogInTo() {
+        debugger
+        var status = @ViewBag.emailStatus;
+        
+        var vName = $("#UserName").val();
+        var vPass = $("#PassId").val();
+
+        var ObjLogin = {
+            "UserName": "leadsoft",
+            "Password": "leadsoft_admin"
+        }
+
+        ObjLogin.UserName = vName;
+        ObjLogin.Password = vPass;
+
+        var datas = JSON.stringify(ObjLogin);
+
+        $.ajax({
+            type: "POST",
+            url: server+"/CoreSecurity/api/Authentication/LogIn",
+            
+            contentType: 'application/json',
+            data: datas,
+            crossDomain: "true",
+            dataType: "json",
+            success: function (data) {
+                debugger
+                Cookies.set('Email', data.Email, { expires: 1 });
+                Cookies.set('UserID', data.UserID, { expires: 1 });
+                Cookies.set('token', data.token, { expires: 1 });
+                var auth = 'bearer ' + Cookies.get(data.token);
+
+
+                RequestedURL = Cookies.get('RequestURL');
+                //if (RequestedURL == null) {
+                //    // do cookie doesn't exist stuff;
+                //    window.location.href = "../Common/GetGeneralCodeFileTypeAll";
+                //}
+                //else {
+                    // do cookie exists stuff
+                window.location.href = server +"/Centerpoint/Approval/ApprovalDashboard";
+                //}
+                
+
+            },
+            error: function () {
+                alert("Login Failed!");
+            }
+        });
+    }
+
+</script>
+
+@*<style>
+    .text-danger {
+            /*position: absolute;
+            margin-left: 120px;
+            margin-top: -20px;*/
+            position: absolute;
+            margin-left: 102px;
+            margin-top: -20px;
+
+    }
+</style>*@
+<div class="vid-container" >
+
+    <div class="inner-container">
+
+        <div class="box">
+            <h1>CenterPoint</h1>
+
+            @Html.AntiForgeryToken()
+            @Html.TextBox("UserName", null, new { @class = "", placeholder = "Username" , style = "Height:40px" })
+            @Html.Password("Password", null, new { @class = "", placeholder = "Password", id = "PassId" , style = "Height:40px" })
+
+            <div>
+
+                <input type="checkbox" id="showPass" style="margin-left: 103px; margin-top: -15px; position: absolute" />
+                <span style="color:white; font-size: 14px; margin-left: 263px; margin-top: 260px; position: absolute; top: -33px"> Show Password</span>
+
+            </div>
+            
+            <button type="button" onclick="LogInTo()">Login</button>
+
+            <p>@Html.ActionLink("Forget Password?", "ForgetPassword")</p>
+
+            <p>@Html.ActionLink("Register as a new user", "Register")</p>
+
+
+            @*<div class="pull-right">Powered By <img src="~/Content/img/LEADS.jpg" alt="LEADS" width="40" height="20"/>
+
+        </div>*@
+
+        </div>
+        </div>
+</div>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@
+<script>
+    $(document).ready(function () {
+    
+        $("#showPass").change(function () {
+            var checked = $(this).is(":checked");
+            console.log(checked);
+        if (checked) {
+            $("#PassId").attr("type", "text");
+        } else {
+            $("#PassId").attr("type", "password");
+        }
+    });
+
+});
+    </script>

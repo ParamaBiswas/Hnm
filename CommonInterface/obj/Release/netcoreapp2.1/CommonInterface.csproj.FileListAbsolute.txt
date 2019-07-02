@@ -1,0 +1,14 @@
+E:\CenterPoint\CenterPointPortal\CommonInterface\bin\Release\netcoreapp2.1\CommonInterface.deps.json
+E:\CenterPoint\CenterPointPortal\CommonInterface\bin\Release\netcoreapp2.1\CommonInterface.dll
+E:\CenterPoint\CenterPointPortal\CommonInterface\bin\Release\netcoreapp2.1\CommonInterface.pdb
+E:\CenterPoint\CenterPointPortal\CommonInterface\bin\Release\netcoreapp2.1\CommonModel.dll
+E:\CenterPoint\CenterPointPortal\CommonInterface\bin\Release\netcoreapp2.1\System.Data.SqlClient.dll
+E:\CenterPoint\CenterPointPortal\CommonInterface\bin\Release\netcoreapp2.1\CommonModel.pdb
+E:\CenterPoint\CenterPointPortal\CommonInterface\bin\Release\netcoreapp2.1\System.Data.SqlClient.xml
+E:\CenterPoint\CenterPointPortal\CommonInterface\obj\Release\netcoreapp2.1\CommonInterface.csprojAssemblyReference.cache
+E:\CenterPoint\CenterPointPortal\CommonInterface\obj\Release\netcoreapp2.1\CommonInterface.csproj.CoreCompileInputs.cache
+E:\CenterPoint\CenterPointPortal\CommonInterface\obj\Release\netcoreapp2.1\CommonInterface.AssemblyInfoInputs.cache
+E:\CenterPoint\CenterPointPortal\CommonInterface\obj\Release\netcoreapp2.1\CommonInterface.AssemblyInfo.cs
+E:\CenterPoint\CenterPointPortal\CommonInterface\obj\Release\netcoreapp2.1\CommonInterface.csproj.CopyComplete
+E:\CenterPoint\CenterPointPortal\CommonInterface\obj\Release\netcoreapp2.1\CommonInterface.dll
+E:\CenterPoint\CenterPointPortal\CommonInterface\obj\Release\netcoreapp2.1\CommonInterface.pdb

@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewData["Title"] = "RFPPortalView";
+
+}
+<head>
+    <script type="text/javascript">
+        window.onload = function () {
+            Preview();
+        }
+        function Preview() {
+            $.ajax({
+                url: "https://192.168.20.83/Procurement/api/RFPProcessing/GetRFPProcessingList",
+                type: "Get",
+                datatype: "JSON",
+                contentType: "application/json",
+                crossDomain: "true",
+                //headers: { 'Access-Control-Allow-Origin': '*' },
+                error: function () {
+                    alert(" An error occurred.");
+                },
+                success: function (data) {
+                    alert('OK');
+                    SetData(data);
+
+                },
+                error: function () {
+                    alert("Failed to load business Types");
+
+                }
+            });
+        }
+        function SetData(data) {
+            debugger
+            $('.ListTable').find('tr').not('.HeaderRow').remove();
+            var vNewRow;
+            var vCheckBox;
+
+            
+                for (var i = 0; i < data.rFProcessings.length; i++) {
+                    vNewRow = '<tr>' +
+
+                        '<td class="DataCell"style="width: 20px">' + data.rFProcessings[i].SLNO_VW + '</td>' +
+
+                        '<td class="DataCell" style="width: 120px">' + data.rFProcessings[i].RFProcessId + '</td>'+
+                        '<td class="DataCell" style="width: 120px">' + data.rFProcessings[i].RequisitionTypeName_VW + '</td>'+
+                        '<td class="DataCell" style="width: 120px">' + data.rFProcessings[i].RequisitionTitle_VW + '</td>' +
+                        '<td class="DataCell" style="width: 120px">' + data.rFProcessings[i].PublishDate + '</td>' +
+                        '<td class="DataCell" style="width: 120px">' + data.rFProcessings[i].OpeningDate + '</td>' +
+                        '<td class="DataCell" style="width: 120px">' + data.rFProcessings[i].ClosingDate + '</td>' +
+                        '<td class="DataCell" style="width: 120px">' + data.rFProcessings[i].Status_VW + '</td>' +
+                        '</tr>';
+                    $('.ListTable').find('tr:last').after(vNewRow);
+                    if (i % 2 == 0) $('.ListTable').find('tr:last').addClass('DataRowOdd');
+                    else $('.ListTable').find('tr:last').addClass('DataRowEven');
+
+                }
+                var vNewRowLast = '<tr></tr>';
+                $('.ListTable').find('tr:last').after(vNewRowLast);
+            
+        }
+        </script>
+</head >
+
+                <h2>RFP Portal View</h2>
+                <div class="container">
+                    <div style="overflow: auto">
+                        <table class="table table-striped ListTable" style="width:700px">
+                            <thead>
+                                <tr class="HeaderRow">
+                                    <th class="HeaderCell">SLNo</th>
+                                    <th class="HeaderCell">RFP ID</th>
+                                    <th class="HeaderCell">RFP Type</th>
+                                    <th class="HeaderCell">RFP Title</th>
+                                    <th class="HeaderCell">Publishing Date</th>
+                                    <th class="HeaderCell">Opening Date</th>
+                                    <th class="HeaderCell">Closing Date</th>
+                                    <th class="HeaderCell">Status</th>
+                                    <th class="HeaderCell"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblRFP"></tbody>
+                        </table>
+
+                    </div>
+                </div>
+

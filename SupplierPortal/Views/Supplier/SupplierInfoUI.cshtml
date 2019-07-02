@@ -1,0 +1,720 @@
+﻿
+@{
+    ViewData["Title"] = "SupplierInfoUI";
+}
+
+<head>
+    <script type="text/javascript">
+        var vArray = new Array();
+        var pArray = new Array();
+        var SupplierContactList_vw = new Array();
+        var SupplierBusinessList_VW = new Array();
+        var pParentFileCode = '';
+        var Gparent;
+        var GparentName;
+        var pChild;
+        var pChildCode;
+        var pParentFileName;
+
+        window.onload = function () {
+            //alert(document.cookie);
+            GetFirstLevelDropDown();
+            //readCookie('pSupplierName');
+        }
+        function getCookie() {
+
+            var dnew;
+
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(',');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                var r = c.split(':');
+
+                dnew = r[1];
+                //alert(dnew);
+                var list = c.split('[');
+
+            }
+        }
+        function GetFirstLevelDropDown() {
+
+            $.ajax({
+                url: "http://192.168.20.29/CoreCommon/api/Common/GetCodeFile?FileTypeCode=223&LevelCode=198&COMPANY_CODE=1",
+                type: "Get",
+                datatype: "JSON",
+                contentType: "application/json",
+                crossDomain: "true",
+
+                error: function () {
+                    alert(" An error occurred.");
+                },
+                success: function (data) {
+                   
+                    $("#ddlBusinessTypeValue").get(0).options.length = 0;
+                    $("#ddlBusinessTypeValue").get(0).options[0] = new Option("Select Type", "-1");
+                    for (var i = 1; i < data.listGeneralCodeFile.length+1; i++) {
+                                        
+                        $("#ddlBusinessTypeValue").get(0).options[i] = new Option(data.listGeneralCodeFile[i - 1].fileName, data.listGeneralCodeFile[i - 1].fileCode_PK, i - 1);
+                      
+                    }
+                    GetSecondLevelDropDown();
+                 
+                },
+                error: function () {
+                    alert("Failed to load business Types");
+
+              
+                }
+            });
+
+        }
+    
+        function GetSecondLevelDropDown() {
+         
+            $.ajax({
+                url: "http://192.168.20.29/CoreCommon/api/Common/GetCodeFile?FileTypeCode=223&LevelCode=199&COMPANY_CODE=1",
+                type: "Get",
+                datatype: "JSON",
+                contentType: "application/json",
+                crossDomain: "true",
+
+                error: function () {
+                    alert(" An error occurred.");
+                },
+                success: function (data) {
+               
+                    $("#ddlSecndlvlBusinessTypeValue").get(0).options.length = 0;
+                    $("#ddlSecndlvlBusinessTypeValue").get(0).options[0] = new Option("Select Type", "-1");
+                    for (var i = 1; i < data.listGeneralCodeFile.length + 1; i++) {
+                        $("#ddlSecndlvlBusinessTypeValue").get(0).options[i] = new Option(data.listGeneralCodeFile[i - 1].fileName, data.listGeneralCodeFile[i - 1].parentFileCode, i - 1);
+
+                    }
+                    pParentFileCode = $("#ddlBusinessTypeValue").val();
+                
+                    GetThirdLevelDropDown();
+                },
+                error: function () {
+                    alert("Failed to load business Types");
+
+
+                }
+            });
+
+        }
+        function GetThirdLevelDropDown() {
+
+            $.ajax({
+                url: "http://192.168.20.29/CoreCommon/api/Common/GetCodeFile?FileTypeCode=223&LevelCode=200&COMPANY_CODE=1",
+                type: "Get",
+                datatype: "JSON",
+                contentType: "application/json",
+                crossDomain: "true",
+
+                error: function () {
+                    alert(" An error occurred.");
+                },
+                success: function (data) {
+                   
+                    $("#ddlSubBusinessTypeValue").get(0).options.length = 0;
+                    $("#ddlSubBusinessTypeValue").get(0).options[0] = new Option("Select Type", "-1");
+
+                 
+                    for (var i = 1; i < data.listGeneralCodeFile.length + 1; i++) {
+                        $("#ddlSubBusinessTypeValue").get(0).options[i] = new Option(data.listGeneralCodeFile[i - 1].fileName, data.listGeneralCodeFile[i - 1].parentFileCode,  i - 1);
+
+                        }
+                                       
+                   
+                    },
+                
+                error: function () {
+                    alert("Failed to load business Types");
+
+
+                }
+            });
+
+        }
+        function AddContact() {
+            var index = $("#tblContacts").children("tr").length;
+            var pContact = $("#Contact").val();
+            var  pMobile= $("#Telephone").val();
+            var pJobRole = $("#JobRole").val();
+            var pDesignation = $("#Designation").val();
+            var pEmail = $("#Email").val();
+            var pTelephone = $("#TelephoneNumber").val();
+
+            if (pContact == '')
+                return false;
+            else if (findWithAttr(pEmail) !== -1) {
+                alert('You cannot add same contact twice.');
+                return;
+            }
+            AddContactList(index, pContact, pTelephone, pJobRole, pDesignation, pEmail, pMobile);
+
+        }
+        
+        function AddContactList(index, contact, telephone, jobRole, designation, email, Mobile) {
+
+            var indexCell = "<td style='display:none'><input name='ContactInfo.Index' type='hidden' value='" +
+                index +
+                "' /></td>";
+
+            var ContactCell = "<td style='display:none'><input id='ContactInfo_" +
+                index +
+                "_Contact' name='ContactInfo[" +
+                index +
+                "].Contact' value='" +
+                index +
+                "' />" +
+                index +
+                "</td>";
+            var ContactNameCell = "<td><input type='hidden' id='ContactInfo_" +
+                index +
+                "_Contact' name='ContactInfo[" +
+                index +
+                "].Contact' value='" +
+                contact +
+                "' />" +
+                contact +
+                "</td>";
+
+            var JobRoleCell = "<td><input type='hidden' id='ContactInfo_" +
+                index +
+                "_JobRole' name='ContactInfo[" +
+                index +
+                "].JobRole' value='" +
+                jobRole +
+                "' />" +
+                jobRole +
+                "</td>";
+
+            var EmailCell = "<td><input type='hidden' id='ContactInfo_" +
+                index +
+                "_Email' name='ContactInfo[" +
+                index +
+                "].Email' value='" +
+                email +
+                "' />" +
+                email +
+                "</td>";
+
+            var TelephoneCell = "<td><input type='hidden' id='ContactInfo_" +
+                index +
+                "_Telephone' name='ContactInfo[" +
+                index +
+                "].Telephone' value='" +
+                telephone +
+                "' />" +
+                telephone +
+                "</td>";
+            var DesignationCell = "<td><input type='hidden' id='ContactInfo_" +
+                index +
+                "_Designation' name='ContactInfo[" +
+                index +
+                "].Designation' value='" +
+                designation +
+                "' />" +
+                designation +
+                "</td>";
+            var MobileCell = "<td><input type='hidden' id='ContactInfo_" +
+                index +
+                "_Mobile' name='ContactInfo[" +
+                index +
+                "].Mobile' value='" +
+                Mobile +
+                "' />" +
+                Mobile +
+                "</td>";
+            var removeCell =
+                "<td><input id='btnRemoveContact' class='btn btn-icon btn-danger btn-rounded' type='button' value='Remove' onclick='RemoveContactRow(" +
+                index +
+                ",\"" +
+                email +
+                "\");' /></td>";
+            var newRow = "<tr id='tblContacts" +
+                index +
+                "'>" +
+                indexCell +
+                ContactCell +
+                ContactNameCell +
+                JobRoleCell +
+                EmailCell +
+                TelephoneCell +
+                DesignationCell +
+                MobileCell+
+                removeCell +
+                "</tr>";
+
+            $("#tblContacts").append(newRow);
+            vArray.push({ Email: email });
+            //vArray.push({ ContactName: contact });
+            //vArray.push({ TelephoneNumber: telephone });
+            //vArray.push({ JobRole: jobRole });
+            //vArray.push({ Designation: designation });
+            SupplierContactList_vw.push({ SupplierCode_FK: "", ContactPersonCode_PK: "", TelephoneNumber: telephone, JobRole: jobRole, ContactName: contact, Email: email, MobileNumber: Mobile,  Designation: designation });
+        }
+        function AddDropDowns() {
+            var index = $("#tblBusinessType").children("tr").length;
+                     
+            var pLastText = $("#ddlSubBusinessTypeValue option:selected").text();
+            if (findWithAttr(pChildCode) !== -1) {
+                alert('You cannot add same Type twice.');
+                return;
+            }
+            AddDropDownList(index, pParentFileCode, pParentFileName, Gparent, GparentName, pChildCode, pLastText);
+        }
+        function AddDropDownList(index, firstLevelParent, firstLevelParentName, secondLevelParent, secondLevelParentName, childLevelParent, childLevelParentName) {
+         
+            var indexCell = "<td style='display:none'><input name='BusinessType.Index' type='hidden' value='" +
+                index +
+                "' /></td>";
+
+            var FirstLevelParent = "<td style='display:none'><input id='BusinessType" +
+                index +
+                "_firstLevelParent' name='BusinessType[" +
+                index +
+                "].firstLevelParent' value='" +
+                firstLevelParent +
+                "' />" +
+                firstLevelParent +
+                "</td>";
+            var FirstLevelParentCell = "<td><input  type='hidden'  id='BusinessType" +
+                index +
+                "_firstLevelParent' name='BusinessType[" +
+                index +
+                "].firstLevelParent' value='" +
+                firstLevelParent +
+                "' />" +
+                firstLevelParentName +
+                "</td>";
+            var SecondLevelParentCell = "<td><input type='hidden' id='BusinessType" +
+                index +
+                "_SecondLevelParent' name='BusinessType[" +
+                index +
+                "].SecondLevelParent' value='" +
+                secondLevelParent +
+                "' />" +
+                secondLevelParentName +
+                "</td>";
+
+            var ChildLevelParentCell = "<td><input type='hidden' id='BusinessType" +
+                index +
+                "_ChildLevelParent' name='BusinessType[" +
+                index +
+                "].ChildLevelParent' value='" +
+                childLevelParent +
+                "' />" +
+                childLevelParentName +
+                "</td>";
+
+          
+            var removeCell =
+                "<td><input id='btnRemoveType' class='btn btn-icon btn-danger btn-rounded' type='button' value='Remove' onclick='RemoveTypeRow(" +
+                index +
+                ",\"" +
+                childLevelParent +
+                "\");' /></td>";
+            var newRow = "<tr id='tblBusinessType" +
+                index +
+                "'>" +
+                indexCell +
+                FirstLevelParentCell +
+                SecondLevelParentCell +
+                ChildLevelParentCell +
+                removeCell +
+                "</tr>";
+
+            $("#tblBusinessType").append(newRow);
+            //pArray.push({ FirstLevelParent: firstLevelParent });
+            //pArray.push({ SecondLevelParent: secondLevelParent });
+            pArray.push({ ChildLevelParent: childLevelParent });
+            //pArray.push({ FirstLevelParentName: firstLevelParentName });
+            //pArray.push({ SecondLevelParentName: secondLevelParentName });
+            //pArray.push({ ChildLevelParent: childLevelParentName });
+            SupplierBusinessList_VW.push({ SupplierCode_FK: "", BusinessTypeCode_PK: childLevelParent });
+        }
+        function findWithAttr(pEmail) {
+          
+            if (pArray.length > 0) {
+                for (var i = 0; i < pArray.length; i += 1) {
+                    if (pArray[i]["ChildLevelParent"] === pEmail) {
+                        return i;
+                    }
+                }
+            }
+            if (vArray.length > 0) {
+            for (var i = 0; i < vArray.length; i += 1) {
+                if (vArray[i]["Email"] === pEmail) {
+                    return i;
+                }
+                
+                }
+            }
+            
+            return -1;
+        }
+        function RemoveContactRow(id, email) {
+            var controlToBeRemoved = "#tblContacts" + id;
+            $(controlToBeRemoved).remove();
+            var index = findWithAttr(email);
+            vArray.splice(index, 1);
+        }
+        function RemoveTypeRow(id, type) {
+            var controlToBeRemoved = "#tblBusinessType" + id;
+            $(controlToBeRemoved).remove();
+            var index = findWithAttr(type);
+            pArray.splice(index, 1);
+        }
+        function PopulateSecondDropnDown() {
+           
+            pParentFileCode = $("#ddlBusinessTypeValue").val();
+            pParentFileName = $("#ddlBusinessTypeValue option:selected").text();
+            //$("#ddlSecndlvlBusinessTypeValueHidden > option").each(function () {
+              
+            //    if (this.value == pParentFileCode) {
+                  
+            //        Gparent = this.text;
+                 
+            //    }
+
+            //});
+          
+            //var j = 1;
+            
+            //$("#ddlSecndlvlBusinessTypeValueCopy").get(0).options.length = 0;
+            //$("#ddlSecndlvlBusinessTypeValueCopy").get(0).options[0] = new Option("Select Type", "-1");
+
+            //$("#ddlSecndlvlBusinessTypeValue > option").each(function () {
+            //    if (this.value == pParentFileCode) {
+                   
+                   
+            //        $("#ddlSecndlvlBusinessTypeValueCopy").get(0).options[j] = new Option(this.text, this.value);
+            //        j++;
+            //    }
+               
+            //    });
+            //$('#ddlSecndlvlBusinessTypeValue').html($('#ddlSecndlvlBusinessTypeValueCopy').html());
+            
+            $.ajax({
+                url: "http://192.168.20.29/CoreCommon/api/Common/GetCodeFileByParent?pFileTypeCode=223&pParentFileCode="+pParentFileCode+"&COMPANY_CODE=1",
+                type: "Get",
+                datatype: "JSON",
+                contentType: "application/json",
+                crossDomain: "true",
+
+                error: function () {
+                    alert(" An error occurred.");
+                },
+                success: function (data) {
+
+                    $("#ddlSecndlvlBusinessTypeValue").get(0).options.length = 0;
+                    $("#ddlSecndlvlBusinessTypeValue").get(0).options[0] = new Option("Select Type", "-1");
+                    for (var i = 1; i < data.listGeneralCodeFile.length + 1; i++) {
+                        $("#ddlSecndlvlBusinessTypeValue").get(0).options[i] = new Option(data.listGeneralCodeFile[i - 1].fileName, data.listGeneralCodeFile[i - 1].fileCode_PK, i - 1);
+
+                    }
+                    pParentFileCode = $("#ddlBusinessTypeValue").val();
+
+                },
+                error: function () {
+                    alert("Failed to load business Types");
+
+
+                }
+            });
+        }
+        function PopulateLastDropnDown() {
+          
+            GparentName = $("#ddlSecndlvlBusinessTypeValue option:selected").text();
+            
+            Gparent = $("#ddlSecndlvlBusinessTypeValue").val();
+          
+            $.ajax({
+                url: "http://192.168.20.29/CoreCommon/api/Common/GetCodeFileByParent?pFileTypeCode=223&pParentFileCode=" + Gparent + "&COMPANY_CODE=1",
+                type: "Get",
+                datatype: "JSON",
+                contentType: "application/json",
+                crossDomain: "true",
+
+                error: function () {
+                    alert(" An error occurred.");
+                },
+                success: function (data) {
+
+                    $("#ddlSubBusinessTypeValue").get(0).options.length = 0;
+                    $("#ddlSubBusinessTypeValue").get(0).options[0] = new Option("Select Type", "-1");
+
+                    for (var i = 1; i < data.listGeneralCodeFile.length + 1; i++) {
+                        $("#ddlSubBusinessTypeValue").get(0).options[i] = new Option(data.listGeneralCodeFile[i - 1].fileName, data.listGeneralCodeFile[i - 1].fileCode_PK, i - 1);
+
+                    }
+
+
+                },
+
+                error: function () {
+                    alert("Failed to load business Types");
+
+
+                }
+            });
+        }
+        function LastDropDown() {
+           
+            pChildCode = $("#ddlSubBusinessTypeValue").val();
+            pChild = $("#ddlSubBusinessTypeValue option:selected").text();
+
+        }
+
+       
+        function alertCookie() {
+            
+            var SupplierName = $("#SupplierName").val();
+            var EnlistmentDate = $("#EnlistmentDate").val();
+            var MobileNumber = $("#MobileNumber").val();
+            var Country = $("#Country").val();
+            var SupplierAddress = $("#SupplierAddress").val();
+            var ZipCode = $("#ZipCode").val();
+            var AlternateEmail = $("#AlternateEmail").val();
+            var Fax = $("#fax").val();
+            var Designation = $("#Designation").val();
+            var SupplierCode_PK;         
+            var SupplierID;         
+            var Email='abc@gmail.com';         
+            var IsApproved = 0;
+            var ApprovalAction = 0;
+            var CompanyCode_FK = 1;
+            var ActionType = 'INSERT';
+            var UserCode = '9C6CA730-34AB-40B2-A0DC-17CD77330B9E';
+
+            document.cookie = JSON.stringify({ SupplierName, SupplierCode_PK, SupplierID, ZipCode, MobileNumber, Email, IsApproved, ApprovalAction, CompanyCode_FK, ActionType, UserCode, EnlistmentDate, SupplierAddress, AlternateEmail, Fax, SupplierContactList_vw, SupplierBusinessList_VW });
+            window.location.href = "../Supplier/SupplierDocuments";
+
+        }
+      
+
+
+    </script>
+</head>
+
+<div class="container" style="margin-top:85px">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Supplier Name</label>
+                    @Html.TextBox("SupplierName", null, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Country Name</label>
+                    @Html.TextBox("Country", null, new { @class = "form-control" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Alt E-Mail</label>
+                    @Html.TextBox("AlternateEmail", null, new { @class = "form-control" })
+                </div>
+            </div>
+          
+
+        </div>
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Enlishment Date</label>
+                    @Html.TextBox("EnlistmentDate", null, new { @class = "form-control", @type = "date" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Address</label>
+                    @Html.TextBox("SupplierAddress", null, new { @class = "form-control" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-6 control-label">Fax</label>
+                    @Html.TextBox("Fax", null, new { @class = "form-control" })
+                </div>
+            </div>
+           
+        </div>
+        <div class="col-md-4">
+
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-6 control-label">Mobile No</label>
+                    @Html.TextBox("MobileNumber", null, new { @class = "form-control", PlaceHolder = "01XXXXXXXXX" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-6 control-label">Postal Code</label>
+                    @Html.TextBox("ZipCode", null, new { @class = "form-control" })
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <div class="col-md-10">
+
+                    <label class="col-md-8 control-label">Business Type</label>
+                    @Html.DropDownList("ddlBusinessTypeValue", new SelectList("", "Value", "Text"), new { @class = "form-control", onchange = "PopulateSecondDropnDown()" })
+                 
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+
+           
+            <div class="form-group">
+                <div class="col-md-10">
+
+                    <label class="col-md-8 control-label">Sub Business Type</label>
+                    @Html.DropDownList("ddlSecndlvlBusinessTypeValue", new SelectList("", "Value", "Text"), new { @class = "form-control", onchange = "PopulateLastDropnDown()" })
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-6 control-label">Type</label>
+                    @Html.DropDownList("ddlSubBusinessTypeValue", new SelectList("", "Value", "Text"), new { @class = "form-control", onchange = "LastDropDown()" })
+
+                    <button type="button" class="btn-add" onclick="AddDropDowns()">Add</button>
+
+                </div>
+            </div>
+
+        </div>
+       
+            <table class="table table-striped ListTable" style="width:700px">
+                <thead>
+                    <tr class="HeaderRow">
+                        <th class="HeaderCell">Business Type</th>
+                        <th class="HeaderCell">Sub Business</th>
+                        <th class="HeaderCell">Category</th>
+                        
+                        <th class="HeaderCell"></th>
+                    </tr>
+                </thead>
+                <tbody id="tblBusinessType"></tbody>
+            </table>
+      
+        </div>
+        <div style="padding-left:20px;color:dimgrey"> Contact Info</div>
+
+        <nav class="breadc"></nav>
+
+        <div class="row" style="padding-top:15px">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label class="col-md-8 control-label">Contact Name</label>
+
+                        @Html.TextBox("Contact", null, new { @class = "form-control" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label class="col-md-8 control-label">Mobile No</label>
+
+                        @Html.TextBox("Telephone", null, new { @class = "form-control" })
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label class="col-md-8 control-label">Job Role</label>
+
+                        @Html.TextBox("JobRole", null, new { @class = "form-control" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label class="col-md-8 control-label">Designation</label>
+
+                        @Html.TextBox("Designation", null, new { @class = "form-control" })
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label class="col-md-8 control-label">E-mail</label>
+
+                        @Html.TextBox("Email", null, new { @class = "form-control", PlaceHolder = "Email" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label class="col-md-8 control-label">Telephone</label>
+
+                        @Html.TextBox("TelephoneNumber", null, new { @class = "form-control" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label class="col-md-8 control-label"></label>
+                        <button type="button" class="btn-add" onclick="AddContact()">Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-striped ListTable">
+                <thead>
+                    <tr class="HeaderRow">
+                        <th class="HeaderCell">Contact</th>
+                        <th class="HeaderCell">Job Role</th>
+                        <th class="HeaderCell">Email</th>
+                        <th class="HeaderCell">Telephone</th>
+                        <th class="HeaderCell">Designation</th>
+                        <th class="HeaderCell">Mobile No</th>
+                        <th class="HeaderCell"></th>
+                    </tr>
+                </thead>
+                <tbody id="tblContacts"></tbody>
+            </table>
+        </div>
+
+        <div class="row">
+            <div class="form-group row col-md-12">
+              
+                <a href="#" class="next" onclick="alertCookie()">Next &raquo;</a>
+
+                <a href="#" class="next round" onclick="alertCookie()">&#8250;</a>
+
+            </div>
+        </div>
+    </div>
+

@@ -1,0 +1,436 @@
+﻿
+@{
+    ViewData["Title"] = "SupplierDocuments";
+}
+<script>
+    var vArray = new Array();
+    var SupplierAttachmentList_vw = new Array();
+    var pDocumentCode;
+    var pDocumentName;
+    var pCertificateNumber;
+    var pExpiryDate;
+    var pIssueDate;
+    var pRemarks;
+    var decodedCookie;
+    window.onload = function () {
+        DocumentsDropDown();
+        //alert(document.cookie);
+        //getCookie();
+    }
+   
+
+    function getCookie() {
+      
+        var dnew;
+       
+         decodedCookie = decodeURIComponent(document.cookie);
+   
+       
+        //var ca = decodedCookie.split(',');
+        //for (var i = 0; i < ca.length; i++) {
+        //    debugger
+        //    var c = ca[i];
+        //    var r = c.split(':');
+           
+        //        dnew= r[1];
+        //        alert(dnew);
+        //    var list = c.split('[');
+
+        //}
+    }
+    function backPage() {
+
+        window.location.href = "../Supplier/supplierInfoUI";
+    }
+    function DocumentsDropDown() {
+
+        $.ajax({
+            url: "http://192.168.20.29/CoreCommon/api/Common/GetCodeFile?FileTypeCode=224&LevelCode=201&COMPANY_CODE=1",
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+                for (var i = 0; i < data.listGeneralCodeFile.length ; i++) {
+                    $("#ddlAttachmentNameList").get(0).options[i] = new Option(data.listGeneralCodeFile[i].fileName, data.listGeneralCodeFile[i].fileCode_PK, i);
+
+                }
+
+            },
+            error: function () {
+                alert("Failed to load business Types");
+
+            }
+        });
+
+    }
+    var input;
+    var files;
+    var formData;
+    function AddDocumentstoGrid(inputId) {
+        input = document.getElementById(inputId);
+        files = input.files;
+        formData = new FormData();
+
+        for (var i = 0; i != files.length; i++) {
+
+            formData.append('file', files[i]);
+        }
+        for (var value of formData.values()) {
+            pUploadedfileName = value.name;
+
+        }
+        var index = $("#tblDocuments").children("tr").length;
+        pDocumentCode = $("#ddlAttachmentNameList").val();
+        pDocumentName = $("#ddlAttachmentNameList option:selected").text();
+        pCertificateNumber = $("#CertificateNumber").val();
+        pExpiryDate = $("#ExpiryDate").val();
+        pIssueDate = $("#IssueDate").val();
+        pRemarks = $("#Remarks").val();
+        var pLastText = $("#tblDocuments option:selected").text();
+        if (findWithAttr(pDocumentCode) !== -1) {
+            alert('You cannot add same document twice.');
+            return;
+        }
+        else if (findWithAttr(pUploadedfileName) !== -1) {
+                alert('You cannot add same file twice.');
+                return;
+            }
+        AddDocuments(index, pDocumentCode, pDocumentName, pCertificateNumber, pExpiryDate, pIssueDate, pRemarks );
+    }
+    function findWithAttr(pDocumentCode) {
+
+        if (vArray.length > 0) {
+            for (var i = 0; i < vArray.length; i += 1) {
+                if (vArray[i]["DocumentName"] === pDocumentCode || vArray[i]["AttachmentName"] === pDocumentCode) {
+                    return i;
+                }
+                
+
+            }
+        }
+
+        return -1;
+    }
+    function AddDocuments(index, documentCode, documentName, certificateNumber, expiryDate, issueDate, remarks) {
+    
+        var SLno = index + 1;
+        var indexCell = "<td style='display:none'><input name='Documents.Index' type='hidden' value='" +
+            index +
+            "' /></td>";
+
+        var DocumentCode = "<td style='display:none'><input id='Documents" +
+            index +
+            "_documentCode' name='Documents[" +
+            index +
+            "].documentCode' value='" +
+            documentCode + 
+            "' />" +
+            documentCode +
+            "</td>";
+        var SLCell = "<td><input  type='hidden'  id='Documents" +
+            index +
+            "_slNo' name='Documents[" +
+            index +
+            "].slNo' value='" +
+            SLno +
+            "' />" +
+            SLno +
+            "</td>";
+        var DocumentNameCell = "<td><input  type='hidden'  id='Documents" +
+            index +
+            "_documentName' name='Documents[" +
+            index +
+            "].documentName' value='" +
+            documentCode + 
+            "' />" +
+            documentName +"("+ pUploadedfileName +")"+
+            "</td>";
+        var UploadfileNameCell = "<td style='display:none'><input  type='hidden'  id='Documents" +
+            index +
+            "_uploadfileName' name='Documents[" +
+            index +
+            "].ploadfileName' value='" +
+            pUploadedfileName +
+            "' />" +
+            pUploadedfileName + 
+            "</td>";
+        var CertificateNumberCell = "<td><input type='hidden' id='Documents" +
+            index +
+            "_certificateNumber' name='Documents[" +
+            index +
+            "].certificateNumber' value='" +
+            certificateNumber +
+            "' />" +
+            certificateNumber +
+            "</td>";
+
+        
+        var IssueDateCell = "<td><input type='hidden' id='Documents" +
+            index +
+            "_issueDate' name='Documents[" +
+            index +
+            "].issueDate' value='" +
+            issueDate +
+            "' />" +
+            issueDate +
+            "</td>";
+        var ExpiryDateCell = "<td><input type='hidden' id='Documents" +
+            index +
+            "_expiryDate' name='Documents[" +
+            index +
+            "].expiryDate' value='" +
+            expiryDate +
+            "' />" +
+            expiryDate +
+            "</td>";
+        var RemarksCell = "<td><input type='hidden' id='Documents" +
+            index +
+            "_remarks' name='Documents[" +
+            index +
+            "].remarks' value='" +
+            remarks +
+            "' />" +
+            remarks +
+            "</td>";
+        var removeCell =
+            "<td><input id='btnRemoveType' class='btn btn-icon btn-danger btn-rounded' type='button' value='Remove' onclick='RemoveTypeRow(" +
+            index +
+            ",\"" +
+            documentCode +
+            "\","+"\"" +
+            pUploadedfileName +
+            "\");' /></td>";
+  
+        var newRow = "<tr id='tblDocuments" +
+            index +
+            "'>" +
+            indexCell +
+            SLCell +
+            DocumentNameCell +
+            CertificateNumberCell +
+            IssueDateCell +
+            ExpiryDateCell +
+          
+            removeCell +
+            "</tr>";
+
+        $("#tblDocuments").append(newRow);
+        vArray.push({ DocumentName: documentCode });
+        vArray.push({ AttachmentName: pUploadedfileName });
+        //var SupplierCode_FK;
+        //var AttachmentCode_PK;
+        SupplierAttachmentList_vw.push({ SupplierCode_FK: "", FileLocationPath:'wwwroot', AttachmentCode_PK: "", CertificateNumber: certificateNumber, AttachmentName: pUploadedfileName, IssueDate: issueDate, ExpiryDate: expiryDate, Remarks: remarks });
+        uploadFiles();
+    }
+    function RemoveTypeRow(id, documentCode, uploadedfileName) {
+        var controlToBeRemoved = "#tblDocuments" + id;
+        $(controlToBeRemoved).remove();
+        var index = findWithAttr(documentCode);
+        vArray.splice(index, 1);
+    
+        //to delete uploaded File
+        uploadedfileName = " 3.1c.6_nescafee_alegria_cappuccino.jpg";
+        $.ajax({
+            url: "http://192.168.20.29/CoreSupplier/api/FileUpload/DeleteFile?filename=" +uploadedfileName,
+            type: "DELETE",
+         
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+                alert('File Removed Successfully!');
+
+            },
+            error: function () {
+                alert("Failed to Remove Files");
+
+            }
+        });
+    }
+    
+    var pUploadedfileName;
+    function uploadFiles() {
+            
+        $.ajax(
+            {
+                url: "http://192.168.20.29/CoreSupplier/api/FileUpload/Upload",
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (data) {
+                    alert("File Uploaded!");
+                },
+                error: function () {
+                    alert("There was error uploading file!");
+                }
+            }
+        );
+    }
+    function merge(source, target) {
+        Object.keys(source).forEach(function (key) {
+            if (!source[key]) {
+                return;
+            }
+            if (typeof source[key] === 'object') {
+                target[key] = target[key] || (Array.isArray(source[key]) ? [] : {});
+                return merge(source[key], target[key]);
+            }
+            target[key] = source[key];
+        });
+    }
+
+    function Save() {
+     
+        document.cookie = JSON.stringify({ SupplierAttachmentList_vw });
+        //document.cookie.split('{',1);
+       // alert(document.cookie)
+        //var data = decodedCookie.concat(',').concat(document.cookie;
+        var data1 = decodedCookie.substring(0, decodedCookie.length - 1);
+        var data2 = document.cookie.substring(1, document.cookie.length);
+        //var data = jQuery.extend({}, decodedCookie, document.cookie);
+        //alert(data1);
+      //  alert(data2);
+        var data =data1.concat(',').concat(data2);
+     //   alert(data)
+        //merged = {};
+        //merge(decodedCookie, merged);
+        //merge(document.cookie, merged);
+        //alert(jQuery.parseJSON(data));
+        //var data = '{'.concat(document.cookie).concat('}');
+        //document.cookie.replace(/\\/g, "");
+    
+        //var ret = "data-123".replace('decodedCookie', '');
+        //var ca = document.cookie.split('decodedCookie":');
+        //for (var i = 0; i < ca.length; i++) {
+        //    debugger
+        //    alert(ca[i]);
+        //}
+        //alert(data().read_JSON(document.cookie.decodedCookie));
+        //var data = JSON.parse(document.cookie.decodedCookie);
+        //alert(data);
+        $.ajax(
+            {
+                url: "http://192.168.20.29/CoreSupplier/api/Supplier/CreateSupplier",
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                type: "POST",
+                data: data,
+                success: function (data) {
+                    alert("Save Succesfull!");
+                },
+                error: function () {
+                    alert("There was error saving data!");
+                }
+            }
+        );
+        }
+</script>
+
+<div class="container" style="margin-top:85px">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Document Name</label>
+                    @Html.DropDownList("ddlAttachmentNameList", new SelectList("", "Value", "Text"), new { @class = "form-control" })
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Certificate No</label>
+                    @Html.TextBox("CertificateNumber", null, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Expiry Date</label>
+                    @Html.TextBox("ExpiryDate", null, new { @class = "form-control", @type = "date" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+
+
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="image-upload">
+
+                                <form id="form" name="form" action="/uploader" enctype="multipart/form-data" method="post">
+                                    <div class="buttons">
+                                        <div class="upload-button">
+                                            <label for="file-input">
+                                                <img src="~/assets/custom/images/Upload.png" alt="Upload File">
+                                            </label>
+                                            <input id="files" name="files" type="file" size="1" multiple />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-4" style="padding-top: 47px;">
+                            <button type="button" class="btn-add" onclick="AddDocumentstoGrid('files');" style="width:100px">Add File</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-8 control-label">Issue Date</label>
+                    @Html.TextBox("IssueDate", null, new { @class = "form-control", @type = "date" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="col-md-6 control-label">Remarks</label>
+                    @Html.TextBox("Remarks", null, new { @class = "form-control" })
+                </div>
+            </div>
+
+
+        </div>
+
+        <table class="table table-striped ListTable">
+            <thead>
+                <tr class="HeaderRow">
+                    <th class="HeaderCell">SL No</th>
+                    <th class="HeaderCell">Attachment Name</th>
+                    <th class="HeaderCell">No</th>
+                    <th class="HeaderCell">Issue Date</th>
+                    <th class="HeaderCell">Expiry Date</th>
+                    <th class="HeaderCell">Remarks</th>
+                    <th class="HeaderCell"></th>
+                </tr>
+            </thead>
+            <tbody id="tblDocuments"></tbody>
+        </table>
+    </div>
+    <div class="row">
+        <button type="button" class="btn-primary" onclick="Save();">Save</button>
+    </div>
+    @*<div class="row">
+        <a href="#" class="previous" onclick="backPage()">&laquo; Previous</a>
+        <a href="#" class="previous round" onclick="backPage()">&#8249;</a>
+    </div>*@
+</div>

@@ -1,0 +1,12 @@
+E:\CenterPoint\CenterPointPortal\PMSModel\bin\Release\netcoreapp2.1\PMSModel.deps.json
+E:\CenterPoint\CenterPointPortal\PMSModel\bin\Release\netcoreapp2.1\PMSModel.dll
+E:\CenterPoint\CenterPointPortal\PMSModel\bin\Release\netcoreapp2.1\PMSModel.pdb
+E:\CenterPoint\CenterPointPortal\PMSModel\bin\Release\netcoreapp2.1\CommonModel.dll
+E:\CenterPoint\CenterPointPortal\PMSModel\bin\Release\netcoreapp2.1\CommonModel.pdb
+E:\CenterPoint\CenterPointPortal\PMSModel\obj\Release\netcoreapp2.1\PMSModel.csprojAssemblyReference.cache
+E:\CenterPoint\CenterPointPortal\PMSModel\obj\Release\netcoreapp2.1\PMSModel.csproj.CoreCompileInputs.cache
+E:\CenterPoint\CenterPointPortal\PMSModel\obj\Release\netcoreapp2.1\PMSModel.AssemblyInfoInputs.cache
+E:\CenterPoint\CenterPointPortal\PMSModel\obj\Release\netcoreapp2.1\PMSModel.AssemblyInfo.cs
+E:\CenterPoint\CenterPointPortal\PMSModel\obj\Release\netcoreapp2.1\PMSModel.csproj.CopyComplete
+E:\CenterPoint\CenterPointPortal\PMSModel\obj\Release\netcoreapp2.1\PMSModel.dll
+E:\CenterPoint\CenterPointPortal\PMSModel\obj\Release\netcoreapp2.1\PMSModel.pdb

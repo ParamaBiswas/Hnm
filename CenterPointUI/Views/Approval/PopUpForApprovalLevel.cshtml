@@ -1,0 +1,102 @@
+﻿
+<script>
+
+    var ca;
+    @*function SplitColumns(){
+        ca= '@(ViewBag.Columns)';
+        ca = ca.split(',');
+    }*@
+    function AssignValue(number, type, serial,pk) {
+        vCalleeVar1 = number;
+        vCalleeVar2 = type;
+        vCalleeVar3 = serial;
+        vCalleeVar4 = pk;
+
+        AssignValueCommonPopUPNewListUI();
+    }
+   var pColumns = '@(ViewBag.ColumnNames)';
+    var j=0;
+    function Preview() {
+      //  SplitColumns();
+
+        var New = "@(ViewBag.URL)";
+        var new1 = New.replace(/&amp;/g, '&');
+
+        $.ajax({
+            url: new1,
+            type: "Get",
+            datatype: "JSON",
+            contentType: "application/json",
+            crossDomain: "true",
+
+            error: function () {
+                alert(" An error occurred.");
+            },
+            success: function (data) {
+
+                SetDataForPopup(data);
+
+            },
+            error: function () {
+                alert("Failed to load business Types");
+
+            }
+        });
+    }
+
+    function SetDataForPopup(data) {
+
+        var vNewRow;
+        var vAllRow = '';
+        $('.ListTable').find('tr').not('.HeaderRow').remove();
+        var oddEvenClass;
+        for (var i = 0; i < data.list.objIAppLevelDefinitionDetList_VW.length; i++)  {
+            var type;
+            if (data.list.appLevelType == 0)
+                type="Fixed";
+            else
+                type="Logical";
+
+            if (i % 2 == 0) oddEvenClass = ' class = "DataRowOdd"';
+            else oddEvenClass = ' class = "DataRowEven"';
+            vNewRow = '<tr' + oddEvenClass + '>' +
+                '<td class="DataCell"><a href="#" onclick="javascript:return AssignValue(\'' + data.list.objIAppLevelDefinitionDetList_VW[i].noOfAppLevel + '\',\'' + type + '\',\'' + data.list.objIAppLevelDefinitionDetList_VW[i].slNo + '\',\'' + data.list.objIAppLevelDefinitionDetList_VW[i].appLvDefinitionDetCode_PK+'\')";>' + data.list.objIAppLevelDefinitionDetList_VW[i].slNo+ '</a></td>';
+
+            vNewRow += '<td class="DataCell">' + type + '</td>';
+
+
+            vNewRow += '<td class="DataCell">' + data.list.objIAppLevelDefinitionDetList_VW[i].noOfAppLevel + '</td>';
+
+
+            '</tr>';
+            vAllRow = vAllRow + vNewRow;
+        }
+        $('.ListTable').find('tr:last').after(vAllRow);
+    }
+
+</script>
+<h5>@ViewBag.Title</h5>
+
+
+
+<div class="container">
+    <div style="overflow: auto">
+        <table id="PopUpTable" class="table table-striped ListTable">
+            <tr class="HeaderRow">
+
+                @{ string[] ca = ViewBag.ColumnNames.Split(',');
+                    foreach (String de in ca)
+                    {
+
+                        <th class="HeaderCell"><b>@de</b></th>
+                    }
+                }
+            </tr>
+        </table>
+        <button class="btn btn-info" onclick="Preview();">
+            Preview
+        </button>
+    </div>
+</div>
+
+

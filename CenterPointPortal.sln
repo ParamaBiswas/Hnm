@@ -1,0 +1,232 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Security", "CenterPointCoreSecurity\Security.csproj", "{1105022D-BAF8-4009-AC32-010ECCD47564}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Supplier", "Supplier\Supplier.csproj", "{AC0D0BBA-ED33-432C-8EA9-5A41071B65CF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupplierModel", "SupplierModel\SupplierModel.csproj", "{3FF0CB58-25C0-474F-A9DA-8782A35FE0C1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupplierDataContext", "SupplierDataContext\SupplierDataContext.csproj", "{A83845F8-5EE0-42FB-8D06-BAEB6C78E35E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnectionGateway", "ConnectionGateway\ConnectionGateway.csproj", "{D66B3C87-C7A5-4680-8E6D-1ACE1E037807}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupplierInterface", "SupplierInterface\SupplierInterface.csproj", "{0148E870-AB72-4AD0-A3BE-6DC8FCA9D699}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonModel", "CommonModel\CommonModel.csproj", "{99F6918A-834B-4B98-B53F-9FC53CEED8DE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSCrud", "LSCrud\LSCrud.csproj", "{D11F1943-9E09-4D88-A99E-ABDA40D65F7D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "Utility\Utility.csproj", "{9564FBB5-65BB-404D-8DE2-F8B9DC7AB4E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonDataContext", "CommonDataContext\CommonDataContext.csproj", "{F6C0F68E-A378-4B2B-A867-E42FF57907C8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonInterface", "CommonInterface\CommonInterface.csproj", "{9226DE29-9331-4B58-A958-A4476A9ACE40}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcurementManagement", "ProcurementManagement\ProcurementManagement.csproj", "{7ECF91E6-09C6-443C-8653-B87C94D8819B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PMSModel", "PMSModel\PMSModel.csproj", "{B6935BD2-08FC-487E-A5DF-AE3FDAC813A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PMSInterface", "PMSInterface\PMSInterface.csproj", "{6F784926-12F0-48DE-9455-23166C5E4E6B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PMSDataContext", "PMSDataContext\PMSDataContext.csproj", "{F44902BF-8612-49A8-937E-E6000CDEF47A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRModel", "HRModel\HRModel.csproj", "{1E493CD1-F7F9-411A-A658-3AD41406F68D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRInterface", "HRInterface\HRInterface.csproj", "{F361EA8A-E1C4-497B-841A-B6F634E5D206}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRDataContext", "HRDataContext\HRDataContext.csproj", "{0F0AD575-8397-42D2-922D-6A54E1DC6B73}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApprovalDataContext", "ApprovalDataContext\ApprovalDataContext.csproj", "{34229FCD-07C9-41F6-A1A7-15AA98E60261}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApprovalModel", "ApprovalModel\ApprovalModel.csproj", "{CBE5C51A-32DD-429A-A450-6B630D0465BF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApprovalInterface", "ApprovalInterface\ApprovalInterface.csproj", "{F0705C4E-421E-4A80-9E1C-6C7E40954D5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupplierPortal", "SupplierPortal\SupplierPortal.csproj", "{4B3E5474-BDA7-4B8E-9335-EFC3C1D977BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CenterPointUI", "CenterPointUI\CenterPointUI.csproj", "{E42D8706-27E3-4DED-B3AF-318429896423}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1105022D-BAF8-4009-AC32-010ECCD47564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1105022D-BAF8-4009-AC32-010ECCD47564}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1105022D-BAF8-4009-AC32-010ECCD47564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1105022D-BAF8-4009-AC32-010ECCD47564}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC0D0BBA-ED33-432C-8EA9-5A41071B65CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC0D0BBA-ED33-432C-8EA9-5A41071B65CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC0D0BBA-ED33-432C-8EA9-5A41071B65CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC0D0BBA-ED33-432C-8EA9-5A41071B65CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FF0CB58-25C0-474F-A9DA-8782A35FE0C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FF0CB58-25C0-474F-A9DA-8782A35FE0C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FF0CB58-25C0-474F-A9DA-8782A35FE0C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FF0CB58-25C0-474F-A9DA-8782A35FE0C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A83845F8-5EE0-42FB-8D06-BAEB6C78E35E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A83845F8-5EE0-42FB-8D06-BAEB6C78E35E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A83845F8-5EE0-42FB-8D06-BAEB6C78E35E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A83845F8-5EE0-42FB-8D06-BAEB6C78E35E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D66B3C87-C7A5-4680-8E6D-1ACE1E037807}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D66B3C87-C7A5-4680-8E6D-1ACE1E037807}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D66B3C87-C7A5-4680-8E6D-1ACE1E037807}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D66B3C87-C7A5-4680-8E6D-1ACE1E037807}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0148E870-AB72-4AD0-A3BE-6DC8FCA9D699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0148E870-AB72-4AD0-A3BE-6DC8FCA9D699}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0148E870-AB72-4AD0-A3BE-6DC8FCA9D699}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0148E870-AB72-4AD0-A3BE-6DC8FCA9D699}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99F6918A-834B-4B98-B53F-9FC53CEED8DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99F6918A-834B-4B98-B53F-9FC53CEED8DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99F6918A-834B-4B98-B53F-9FC53CEED8DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99F6918A-834B-4B98-B53F-9FC53CEED8DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D11F1943-9E09-4D88-A99E-ABDA40D65F7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D11F1943-9E09-4D88-A99E-ABDA40D65F7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D11F1943-9E09-4D88-A99E-ABDA40D65F7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D11F1943-9E09-4D88-A99E-ABDA40D65F7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9564FBB5-65BB-404D-8DE2-F8B9DC7AB4E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9564FBB5-65BB-404D-8DE2-F8B9DC7AB4E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9564FBB5-65BB-404D-8DE2-F8B9DC7AB4E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9564FBB5-65BB-404D-8DE2-F8B9DC7AB4E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6C0F68E-A378-4B2B-A867-E42FF57907C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6C0F68E-A378-4B2B-A867-E42FF57907C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6C0F68E-A378-4B2B-A867-E42FF57907C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6C0F68E-A378-4B2B-A867-E42FF57907C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9226DE29-9331-4B58-A958-A4476A9ACE40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9226DE29-9331-4B58-A958-A4476A9ACE40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9226DE29-9331-4B58-A958-A4476A9ACE40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9226DE29-9331-4B58-A958-A4476A9ACE40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ECF91E6-09C6-443C-8653-B87C94D8819B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ECF91E6-09C6-443C-8653-B87C94D8819B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ECF91E6-09C6-443C-8653-B87C94D8819B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ECF91E6-09C6-443C-8653-B87C94D8819B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6935BD2-08FC-487E-A5DF-AE3FDAC813A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6935BD2-08FC-487E-A5DF-AE3FDAC813A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6935BD2-08FC-487E-A5DF-AE3FDAC813A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6935BD2-08FC-487E-A5DF-AE3FDAC813A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F784926-12F0-48DE-9455-23166C5E4E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F784926-12F0-48DE-9455-23166C5E4E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F784926-12F0-48DE-9455-23166C5E4E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F784926-12F0-48DE-9455-23166C5E4E6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F44902BF-8612-49A8-937E-E6000CDEF47A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F44902BF-8612-49A8-937E-E6000CDEF47A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F44902BF-8612-49A8-937E-E6000CDEF47A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F44902BF-8612-49A8-937E-E6000CDEF47A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E493CD1-F7F9-411A-A658-3AD41406F68D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E493CD1-F7F9-411A-A658-3AD41406F68D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E493CD1-F7F9-411A-A658-3AD41406F68D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E493CD1-F7F9-411A-A658-3AD41406F68D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F361EA8A-E1C4-497B-841A-B6F634E5D206}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F361EA8A-E1C4-497B-841A-B6F634E5D206}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F361EA8A-E1C4-497B-841A-B6F634E5D206}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F361EA8A-E1C4-497B-841A-B6F634E5D206}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F0AD575-8397-42D2-922D-6A54E1DC6B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F0AD575-8397-42D2-922D-6A54E1DC6B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F0AD575-8397-42D2-922D-6A54E1DC6B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F0AD575-8397-42D2-922D-6A54E1DC6B73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34229FCD-07C9-41F6-A1A7-15AA98E60261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34229FCD-07C9-41F6-A1A7-15AA98E60261}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34229FCD-07C9-41F6-A1A7-15AA98E60261}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34229FCD-07C9-41F6-A1A7-15AA98E60261}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBE5C51A-32DD-429A-A450-6B630D0465BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBE5C51A-32DD-429A-A450-6B630D0465BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBE5C51A-32DD-429A-A450-6B630D0465BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBE5C51A-32DD-429A-A450-6B630D0465BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0705C4E-421E-4A80-9E1C-6C7E40954D5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0705C4E-421E-4A80-9E1C-6C7E40954D5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0705C4E-421E-4A80-9E1C-6C7E40954D5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0705C4E-421E-4A80-9E1C-6C7E40954D5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B3E5474-BDA7-4B8E-9335-EFC3C1D977BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B3E5474-BDA7-4B8E-9335-EFC3C1D977BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B3E5474-BDA7-4B8E-9335-EFC3C1D977BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B3E5474-BDA7-4B8E-9335-EFC3C1D977BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E42D8706-27E3-4DED-B3AF-318429896423}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E42D8706-27E3-4DED-B3AF-318429896423}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E42D8706-27E3-4DED-B3AF-318429896423}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E42D8706-27E3-4DED-B3AF-318429896423}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {474238EF-2539-4905-9F66-E313A64C09F6}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 24
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://192.168.20.47:8080/tfs/leadsoft
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = CenterPointCoreSecurity\\Security.csproj
+		SccProjectName1 = CenterPointCoreSecurity
+		SccLocalPath1 = CenterPointCoreSecurity
+		SccProjectUniqueName2 = Supplier\\Supplier.csproj
+		SccProjectName2 = Supplier
+		SccLocalPath2 = Supplier
+		SccProjectUniqueName3 = SupplierModel\\SupplierModel.csproj
+		SccProjectName3 = SupplierModel
+		SccLocalPath3 = SupplierModel
+		SccProjectUniqueName4 = SupplierDataContext\\SupplierDataContext.csproj
+		SccProjectName4 = SupplierDataContext
+		SccLocalPath4 = SupplierDataContext
+		SccProjectUniqueName5 = ConnectionGateway\\ConnectionGateway.csproj
+		SccProjectName5 = ConnectionGateway
+		SccLocalPath5 = ConnectionGateway
+		SccProjectUniqueName6 = SupplierInterface\\SupplierInterface.csproj
+		SccProjectName6 = SupplierInterface
+		SccLocalPath6 = SupplierInterface
+		SccProjectUniqueName7 = CommonModel\\CommonModel.csproj
+		SccProjectName7 = CommonModel
+		SccLocalPath7 = CommonModel
+		SccProjectUniqueName8 = LSCrud\\LSCrud.csproj
+		SccProjectName8 = LSCrud
+		SccLocalPath8 = LSCrud
+		SccProjectUniqueName9 = CommonDataContext\\CommonDataContext.csproj
+		SccProjectName9 = CommonDataContext
+		SccLocalPath9 = CommonDataContext
+		SccProjectUniqueName10 = CommonInterface\\CommonInterface.csproj
+		SccProjectName10 = CommonInterface
+		SccLocalPath10 = CommonInterface
+		SccProjectUniqueName11 = Utility\\Utility.csproj
+		SccProjectName11 = Utility
+		SccLocalPath11 = Utility
+		SccProjectUniqueName12 = ProcurementManagement\\ProcurementManagement.csproj
+		SccProjectName12 = ProcurementManagement
+		SccLocalPath12 = ProcurementManagement
+		SccProjectUniqueName13 = PMSModel\\PMSModel.csproj
+		SccProjectName13 = PMSModel
+		SccLocalPath13 = PMSModel
+		SccProjectUniqueName14 = PMSInterface\\PMSInterface.csproj
+		SccProjectName14 = PMSInterface
+		SccLocalPath14 = PMSInterface
+		SccProjectUniqueName15 = PMSDataContext\\PMSDataContext.csproj
+		SccProjectName15 = PMSDataContext
+		SccLocalPath15 = PMSDataContext
+		SccProjectUniqueName16 = HRModel\\HRModel.csproj
+		SccProjectName16 = HRModel
+		SccLocalPath16 = HRModel
+		SccProjectUniqueName17 = HRInterface\\HRInterface.csproj
+		SccProjectName17 = HRInterface
+		SccLocalPath17 = HRInterface
+		SccProjectUniqueName18 = HRDataContext\\HRDataContext.csproj
+		SccProjectName18 = HRDataContext
+		SccLocalPath18 = HRDataContext
+		SccProjectUniqueName19 = ApprovalDataContext\\ApprovalDataContext.csproj
+		SccProjectName19 = ApprovalDataContext
+		SccLocalPath19 = ApprovalDataContext
+		SccProjectUniqueName20 = ApprovalModel\\ApprovalModel.csproj
+		SccProjectName20 = ApprovalModel
+		SccLocalPath20 = ApprovalModel
+		SccProjectUniqueName21 = ApprovalInterface\\ApprovalInterface.csproj
+		SccProjectName21 = ApprovalInterface
+		SccLocalPath21 = ApprovalInterface
+		SccProjectUniqueName22 = SupplierPortal\\SupplierPortal.csproj
+		SccProjectName22 = SupplierPortal
+		SccLocalPath22 = SupplierPortal
+		SccProjectUniqueName23 = CenterPointUI\\CenterPointUI.csproj
+		SccProjectName23 = CenterPointUI
+		SccLocalPath23 = CenterPointUI
+	EndGlobalSection
+EndGlobal
